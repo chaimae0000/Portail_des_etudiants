@@ -9,3 +9,5 @@ Route::get('/', function () {
 
 
 route::get('/home',[HomeController::class,'index']);
+
+route::get('/login',[HomeController::class,'login']);
