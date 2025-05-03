@@ -66,6 +66,7 @@ https://templatemo.com/tm-586-scholar
                     <ul class="nav">
                       <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                      
+                     
                       <li class="scroll-to-section"><a href="#courses">Courses</a></li>
                   
         
@@ -138,6 +139,7 @@ https://templatemo.com/tm-586-scholar
       </div>
     </div>
   </div>
+
 
 
 
@@ -352,6 +354,8 @@ https://templatemo.com/tm-586-scholar
         </div>
       </div>
     </div>
+  </div>
+  
   </div>
   
   <div class="section testimonials">
