@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HomeController;    
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -20,7 +19,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-=======
+
+
 Route::get('/home', [HomeController::class, 'index']);
 
 
@@ -32,4 +32,3 @@ Route::post('/storeRegister', [HomeController::class, 'storeRegister'])->name('s
 Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
 Route::get('/member/dashboard', [HomeController::class, 'memberDashboard'])->name('member.dashboard');
 
->>>>>>> 09b3b08cd935310d81897da5bdbf85c2c5117184
