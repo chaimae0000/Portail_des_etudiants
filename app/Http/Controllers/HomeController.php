@@ -50,6 +50,10 @@ class HomeController extends Controller
                 return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
             }
         }
+        else {
+        // ✅ Handle failed login
+        return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
+    }
     }
 
 
