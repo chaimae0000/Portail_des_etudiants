@@ -1,50 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - A Pen by Mohithpoojary</title>
-  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
-	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+	<meta charset="utf-8">
+	<title>HTML Codex - Login Form Template</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="Login Form Template" name="keywords">
+	<meta content="Login Form Template" name="description">
+
+	<!-- Favicon -->
+	<link href="img/favicon.ico" rel="icon">
+
+	<!-- Stylesheet -->
+	<link href="{{ asset('assets/css/loginstyle.css') }}" rel="stylesheet">
 
 </head>
+
 <body>
-<!-- partial:index.partial.html -->
-<div class="container">
-	<div class="screen">
-		<div class="screen__content">
-			<form class="login">
-				<div class="login__field">
-					<i class="login__icon fas fa-user"></i>
-					<input type="text" class="login__input" placeholder="User name / Email">
+	<div class="wrapper login-3">
+		<div class="container">
+			<div class="col-left">
+				<div class="login-text">
+					<h2>Vie EMSI</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada vel libero vitae eleifend. Fusce tristique ipsum lorem.
+					</p>
+					<a class="btn" href="">Read More</a>
 				</div>
-				<div class="login__field">
-					<i class="login__icon fas fa-lock"></i>
-					<input type="password" class="login__input" placeholder="Password">
-				</div>
-				<button class="button login__submit">
-					<span class="button__text">Log In Now</span>
-					<i class="button__icon fas fa-chevron-right"></i>
-				</button>				
-			</form>
-			<div class="social-login">
-				<h3>log in via</h3>
-				<div class="social-icons">
-					<a href="#" class="social-login__icon fab fa-instagram"></a>
-					<a href="https://www.facebook.com" class="social-login__icon fab fa-facebook"></a>
-					<a href="https://twitter.com" class="social-login__icon fab fa-twitter"></a>
+			</div>
+			<div class="col-right">
+				<div class="login-form">
+					<h2>Login</h2>
+					<form method="POST" action="{{ route('login.submit') }}">
+						@csrf
+						<p>
+							<input type="text" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+						</p>
+						<p>
+							<input type="password" name="password" placeholder="Password" required>
+						</p>
+						<p>
+							<input class="btn" type="submit" value="Sign In" />
+						</p>
+						@if ($errors->any())
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+						@endif
+
+						<p>
+
+							<a href="{{ route('register') }}">Create an account.</a>
+						</p>
+					</form>
+
 				</div>
 			</div>
 		</div>
-		<div class="screen__background">
-			<span class="screen__background__shape screen__background__shape4"></span>
-			<span class="screen__background__shape screen__background__shape3"></span>		
-			<span class="screen__background__shape screen__background__shape2"></span>
-			<span class="screen__background__shape screen__background__shape1"></span>
-		</div>		
+
 	</div>
-</div>
-<!-- partial -->
-  
 </body>
+
 </html>

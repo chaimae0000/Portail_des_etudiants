@@ -51,7 +51,7 @@ https://templatemo.com/tm-586-scholar
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <h1>Scholar</h1>
+                        <h1>Vie EMSI</h1>
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Serach Start ***** -->
@@ -66,10 +66,12 @@ https://templatemo.com/tm-586-scholar
                     <ul class="nav">
                       <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                      
+                     
                       <li class="scroll-to-section"><a href="#courses">Courses</a></li>
                   
         
-                      <li class="scroll-to-section"><a href="#contact">Register Now!</a></li>
+                      <li class="scroll-to-section"><a href="{{ route('register') }}">Register Now!</a></li>
+
                   </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -90,8 +92,8 @@ https://templatemo.com/tm-586-scholar
             <div class="item item-1">
               <div class="header-text">
                 <span class="category">Our Courses</span>
-                <h2>Bienvenue sur notre Portail EMSI </h2>
-                <p>Scholar is free CSS template designed by TemplateMo for online educational related websites. This layout is based on the famous Bootstrap v5.3.0 framework.</p>
+                <h2>Bienvenue sur le portail de lAssociation des Étudiants EMSI</h2>
+<p>Découvrez nos événements, projets, opportunités et activités pour les étudiants.</p>
                 <div class="buttons">
                   <div class="main-button">
                     <a href="#">Request Demo</a>
@@ -137,6 +139,7 @@ https://templatemo.com/tm-586-scholar
       </div>
     </div>
   </div>
+
 
 
 
@@ -353,6 +356,8 @@ https://templatemo.com/tm-586-scholar
     </div>
   </div>
   
+  </div>
+  
   <div class="section testimonials">
     <div class="container">
       <div class="row">
@@ -443,6 +448,7 @@ https://templatemo.com/tm-586-scholar
       </div>
     </div>
   </div>
+
 
 
   <!-- Scripts -->
