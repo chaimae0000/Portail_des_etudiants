@@ -32,4 +32,3 @@ Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::post('/storeRegister', [HomeController::class, 'storeRegister'])->name('storeRegister');
 Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.index');
 Route::get('/member/dashboard', [HomeController::class, 'memberDashboard'])->name('member.dashboard');
-
