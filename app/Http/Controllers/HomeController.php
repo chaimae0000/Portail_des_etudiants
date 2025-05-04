@@ -42,7 +42,7 @@ class HomeController extends Controller
 
             // Redirect based on user role
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.index');
             } elseif ($user->role === 'membre') {
                 return redirect()->route('member.dashboard');
             } else {
@@ -90,7 +90,7 @@ class HomeController extends Controller
             return redirect('/login');
         }
 
-        return view('frontend.user.admin.dashboard', ['user' => $user]);
+        return view('frontend.user.admin.index', ['user' => $user]);
     }
 
     public function memberDashboard()
