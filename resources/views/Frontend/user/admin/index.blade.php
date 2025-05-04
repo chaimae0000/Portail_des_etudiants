@@ -215,14 +215,14 @@ Bootstrap 5 Dashboard Admin Template
                     <div class="position-sticky py-4 px-3 sidebar-sticky">
                         <ul class="nav flex-column h-100">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.events.create') }}">
+                                <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">
                                     <i class="bi-house-fill me-2"></i>
                                     Overview
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.events.show') }}">
+                                <a class="nav-link" href="{{ route('admin.index') }}">
                                     <i class="bi-wallet me-2"></i>
                                     Evenements
                                 </a>
