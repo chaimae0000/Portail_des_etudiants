@@ -108,6 +108,8 @@ class AdminController extends Controller{
         return view('frontend.user.admin.list', compact('users'));
     }
 
+
+
 }
 
 

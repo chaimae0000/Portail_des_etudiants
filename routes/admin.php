@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;  
 use App\Http\Controllers\Admin\EventController;
-
+use App\Http\Controllers\Admin\AdherantController;
 Route::resource('events', EventController::class);
 
 
@@ -14,3 +14,9 @@ Route::resource('events', EventController::class);
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin/events', EventController::class);
 });
+
+
+
+Route::get('/admin/gestion_adherants/visualiser-adherants', [AdherantController::class, 'index'])->name('gestion_adherants.visualiser_adherants');
+
+

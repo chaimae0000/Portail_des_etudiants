@@ -236,6 +236,13 @@ Bootstrap 5 Dashboard Admin Template
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('gestion_adherants.visualiser_adherants') }}">
+                                    <i class="bi-person me-2"></i>
+                                    Espace admin
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="setting.html">
                                     <i class="bi-gear me-2"></i>
                                     Settings
