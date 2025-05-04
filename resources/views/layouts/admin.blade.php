@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <head>
     <meta charset="utf-8">
@@ -237,7 +238,7 @@ Bootstrap 5 Dashboard Admin Template
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('gestion_adherants.visualiser_adherants') }}">
+                            <a class="nav-link" href="{{ route('espace') }}">
                                 <i class="bi-person me-2"></i>
                                 Espace admin
                             </a>
