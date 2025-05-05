@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('Frontend.user.admin.events.create');
+        return view('Frontend.user.admin.events.list');
     }
 
     /**

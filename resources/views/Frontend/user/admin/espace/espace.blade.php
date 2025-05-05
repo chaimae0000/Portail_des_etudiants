@@ -6,17 +6,18 @@
         <h1 class="h2 mb-2">Espace Administrateur</h1>
         <small class="text-muted">Gérez votre application depuis cette interface.</small>
     </div>
+  
 
     <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
         <div class="d-flex flex-wrap gap-5 justify-content-center">
             <!-- Tuile Adhérents -->
-            <a href="" class="admin-tile bg-primary text-white shadow">
+            <a href="{{ route('visualiser_adherants') }}" class="admin-tile bg-primary text-white shadow">
                 <i class="bi bi-people-fill"></i>
                 <span>Adhérents</span>
             </a>
 
             <!-- Tuile Messages -->
-            <a href="#" class="admin-tile bg-success text-white shadow">
+            <a href="{{ route('messages') }}" class="admin-tile bg-success text-white shadow">
                 <i class="bi bi-chat-dots-fill"></i>
                 <span>Messages</span>
             </a>
