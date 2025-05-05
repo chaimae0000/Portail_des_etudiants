@@ -71,44 +71,26 @@
 
 @section('scripts')
 <script>
+    const storeEventUrl = "{{ route('admin.events.store') }}";
+</script>
+<script>
 createEventForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    console.log('Formulaire soumis');
-    
+
+    console.log("URL utilisée :", storeEventUrl);
+
     const formData = new FormData(createEventForm);
-    // Afficher les données du formulaire
-    for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-    }
-    
-    console.log('Envoi de la requête AJAX...');
-    fetch('{{ route("admin.events.store") }}', {
+    fetch(storeEventUrl, {
         method: 'POST',
         body: formData,
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
         }
     })
-    .then(response => {
-        console.log('Réponse reçue', response);
-        console.log('Statut:', response.status);
-        return response.json().catch(error => {
-            console.error('Erreur parsing JSON:', error);
-            throw new Error('Réponse non-JSON');
-        });
-    })
-    .then(data => {
-        console.log('Données reçues:', data);
-        // reste du code...
-    })
-    .catch(error => {
-        console.error('Erreur complète:', error);
-        alert('Une erreur est survenue: ' + error.message);
-    });
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Erreur :', error));
 });
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-        var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
-        chart.render();
 </script>
+
 @endsection

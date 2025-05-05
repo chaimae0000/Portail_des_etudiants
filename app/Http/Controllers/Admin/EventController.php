@@ -52,63 +52,32 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        Log::info('Requête reçue dans store()', [
-            'all' => $request->all(),
-            'files' => $request->hasFile('image') ? 'Oui' : 'Non'
-        ]);
-    
-        try {
-            // Validation des données
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'date' => 'required|date',
-                'time' => 'required',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
-            
-            Log::info('Validation passée', $validated);
-            
-            // Traitement de l'image
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('events', 'public');
-                $validated['image'] = $imagePath;
-                Log::info('Image traitée', ['path' => $imagePath]);
-            }
-            
-            // Création de l'événement
-            Log::info('Tentative de création avec les données', $validated);
-            $event = Event::create($validated);
-            Log::info('Événement créé', ['id' => $event->id]);
-            
-            return response()->json([
-                'success' => true,
-                'event' => $event,
-                'message' => 'Événement créé avec succès.'
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Erreur de validation', [
-                'errors' => $e->errors(),
-            ]);
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur de validation',
-                'errors' => $e->errors()
-            ], 422);
-        } catch (\Exception $e) {
-            Log::error('Exception dans store()', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return response()->json([
-                'success' => false,
-                'message' => 'Une erreur est survenue: ' . $e->getMessage()
-            ], 500);
-        }
+  public function store(Request $request)
+{
+    // Valider les champs du formulaire
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'date' => 'required|date',
+        'time' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    // Préparer les données à enregistrer
+    $data = $request->only(['title', 'description', 'date', 'time']);
+
+    // Gérer l'upload de l'image si présente
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('events', 'public');
     }
-    
+
+    // Créer l'événement
+    Event::create($data);
+
+    // Rediriger avec message de succès
+    return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
+}
+
     
     
     /**
