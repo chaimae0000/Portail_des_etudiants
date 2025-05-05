@@ -98,5 +98,16 @@ public function memberDashboard()
 
     return view('frontend.user.member.dashboard', ['user' => $user]);
 }
+public function logout(Request $request)
+{
+    Auth::logout(); // Déconnexion de l'utilisateur
+
+    // Invalide la session et régénère le token CSRF
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Redirection vers la page de login
+    return redirect('/login')->with('status', 'Déconnexion réussie.');
+}
 
 }
