@@ -4,10 +4,10 @@
 <div class="container mt-4">
     <h2>📅 Liste des Événements</h2>
 
-    <!-- Button to trigger the modal -->
+    <!-- Bouton pour ouvrir le modal -->
     <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createEventModal">Créer un Événement</button>
 
-    <!-- Event List -->
+    <!-- Liste des événements -->
     <div id="event-container">
         @foreach($events as $event)
             <div class="card mb-3 event-card" data-id="{{ $event->id }}">
@@ -23,23 +23,19 @@
             </div>
         @endforeach
     </div>
-
-    <div id="loading" class="text-center" style="display: none;">
-        <span>Chargement...</span>
-    </div>
 </div>
 
-<!-- Modal for creating an event -->
+<!-- Modal de création d'événement -->
 <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createEventModalLabel">Créer un Nouvel Événement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createEventForm">
-                    @csrf
+            <form action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEventModalLabel">Créer un Nouvel Événement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="title" class="form-label">Titre</label>
                         <input type="text" class="form-control" id="title" name="title" required>
@@ -60,37 +56,12 @@
                         <label for="image" class="form-label">Image</label>
                         <input type="file" class="form-control" id="image" name="image">
                     </div>
+                </div>
+                <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Créer l'Événement</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-@endsection
-
-@section('scripts')
-<script>
-    const storeEventUrl = "{{ route('admin.events.store') }}";
-</script>
-<script>
-createEventForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    console.log("URL utilisée :", storeEventUrl);
-
-    const formData = new FormData(createEventForm);
-    fetch(storeEventUrl, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        }
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Erreur :', error));
-});
-</script>
-
 @endsection

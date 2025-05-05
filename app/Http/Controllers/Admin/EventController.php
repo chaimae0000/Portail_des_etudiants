@@ -52,7 +52,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-  public function store(Request $request)
+/*  public function store(Request $request)
 {
     // Valider les champs du formulaire
     $request->validate([
@@ -76,9 +76,29 @@ class EventController extends Controller
 
     // Rediriger avec message de succès
     return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
-}
+}*/
 
-    
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'date' => 'required|date',
+        'time' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    Event::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'date' => $request->date,
+        'time' => $request->time,
+        'image' => $request->hasFile('image') ? $request->file('image')->store('events', 'public') : null,
+    ]);
+
+
+    return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
+}
     
     /**
      * Display the specified resource.
