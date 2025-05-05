@@ -8,8 +8,9 @@
 
     <meta name="description" content="">
     <meta name="author" content="Tooplate">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Mini Finance Dashboard Template</title>
+    <title>Admin Dashboard Template</title>
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

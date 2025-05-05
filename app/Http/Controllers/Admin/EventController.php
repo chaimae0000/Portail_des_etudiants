@@ -16,8 +16,9 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::paginate(5); // Pagination classique
-    
+        // Récupère tous les événements, sans pagination
+        $events = Event::all(); 
+        
         // Vérification si la requête est une requête AJAX
         if ($request->ajax()) {
             // Retourner les événements en JSON avec la structure appropriée
@@ -32,7 +33,7 @@ class EventController extends Controller
                         'image' => $event->image ? asset('storage/' . $event->image) : null,
                     ];
                 }),
-                'next_page' => $events->hasMorePages() ? $events->nextPageUrl() : null // Ajouter le lien pour la page suivante
+                'next_page' => null // Pas de pagination ici
             ]);
         }
     
@@ -40,7 +41,6 @@ class EventController extends Controller
         return view('Frontend.user.admin.events.list', compact('events'));
     }
     
-
     /**
      * Show the form for creating a new resource.
      */
@@ -85,27 +85,45 @@ public function store(Request $request)
         'description' => 'required|string',
         'date' => 'required|date',
         'time' => 'required',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'image' => 'nullable|image|max:2048',
     ]);
 
-    Event::create([
+    $imagePath = null;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('events', 'public');
+    }
+
+    $event = Event::create([
         'title' => $request->title,
         'description' => $request->description,
         'date' => $request->date,
         'time' => $request->time,
-        'image' => $request->hasFile('image') ? $request->file('image')->store('events', 'public') : null,
+        'image' => $imagePath,
     ]);
 
+    // 🧠 Si AJAX → JSON
+    if ($request->ajax()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Événement créé avec succès',
+            'event' => $event
+        ]);
+    }
 
-    return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
+    // ✅ Sinon → redirection classique
+    return redirect()->route('events.list')->with('success', 'Événement créé avec succès');
 }
-    
+
+   
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        return view('Frontend.user.admin.events.show', compact('event'));
+        $event = Event::findOrFail($id);
+        return view('admin.events.show', compact('event'));
     }
 
     /**

@@ -4,64 +4,113 @@
 <div class="container mt-4">
     <h2>📅 Liste des Événements</h2>
 
-    <!-- Bouton pour ouvrir le modal -->
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createEventModal">Créer un Événement</button>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    <!-- Liste des événements -->
+    <!-- Formulaire avec ID correct -->
+    <form id="createEventForm" action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data" class="mb-4">
+        @csrf
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <input type="text" name="title" class="form-control" placeholder="Titre" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input type="date" name="date" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input type="time" name="time" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input type="file" name="image" class="form-control">
+            </div>
+            <div class="col-12 mb-2">
+                <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Créer l'Événement</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Conteneur pour la liste des événements -->
     <div id="event-container">
         @foreach($events as $event)
-            <div class="card mb-3 event-card" data-id="{{ $event->id }}">
+            <div class="card mb-3">
                 @if($event->image)
-                    <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top" alt="Image de l’événement">
+                  <!-- <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top" style="max-height:200px;" alt="Image"> -->
+                    <img src="{{ asset('storage/' . $event->image) }}" alt="Image">
+
                 @endif
                 <div class="card-body">
                     <h5>{{ $event->title }}</h5>
-                    <p>{{ Str::limit($event->description, 100) }}</p>
-                    <p class="text-muted">{{ $event->date }} à {{ $event->time }}</p>
+                    <p>{{ $event->description }}</p>
+                    <p class="text-muted">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }} à {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
                     <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-sm btn-primary">🔍 Détails</a>
+
+                
                 </div>
+                
             </div>
         @endforeach
     </div>
 </div>
+@endsection
 
-<!-- Modal de création d'événement -->
-<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createEventModalLabel">Créer un Nouvel Événement</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Titre</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('createEventForm');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        fetch("{{ route('admin.events.store') }}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const event = data.event;
+                const container = document.getElementById('event-container');
+                const card = document.createElement('div');
+                card.classList.add('card', 'mb-3', 'event-card');
+                card.setAttribute('data-id', event.id);
+
+                let imageHtml = '';
+                if (event.image) {
+                    imageHtml = ` <img src="{{ asset('storage/' . $event->image) }}" alt="Image">`;
+                }
+
+                card.innerHTML = `
+                    ${imageHtml}
+                    <div class="card-body">
+                        <h5>${event.title}</h5>
+                        <p>${event.description}</p>
+                        <p class="text-muted">${event.date.substring(0, 10)} à ${event.time}</p>
+                        <a href="/admin/events/${event.id}" class="btn btn-sm btn-primary">🔍 Détails</a>
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="time" class="form-label">Heure</label>
-                        <input type="time" class="form-control" id="time" name="time" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Créer l'Événement</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                `;
+
+                container.prepend(card);
+                form.reset();
+                alert('✅ Événement ajouté avec succès !');
+            } else {
+                alert('❌ Erreur: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur AJAX:', error);
+            alert('❌ Une erreur est survenue.');
+        });
+    });
+});
+</script>
 @endsection
