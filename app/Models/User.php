@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+        public function isAdmin()
+    {
+        // Adaptez cette logique selon votre structure de base de données
+        return $this->role === 'admin'; // ou $this->is_admin === 1, etc.
+    }
 }

@@ -38,7 +38,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="createEventForm" method="POST" action="{{ route('admin.events.store') }}" enctype="multipart/form-data">
+                <form id="createEventForm">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Titre</label>
@@ -71,96 +71,44 @@
 
 @section('scripts')
 <script>
-    let page = 1;
-    const loading = document.getElementById('loading');
-
-    window.onscroll = function() {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-            loadMoreEvents();
-        }
-    };
-
-    function loadMoreEvents() {
-        page++;
-
-        loading.style.display = 'block';
-
-        fetch(`/admin/events?page=${page}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.events.length) {
-                    const eventContainer = document.getElementById('event-container');
-                    data.events.forEach(event => {
-                        const eventCard = document.createElement('div');
-                        eventCard.classList.add('card', 'mb-3', 'event-card');
-                        eventCard.dataset.id = event.id;
-
-                        if (event.image) {
-                            eventCard.innerHTML = `
-                                <img src="${event.image}" class="card-img-top" alt="Image de l’événement">
-                                <div class="card-body">
-                                    <h5>${event.title}</h5>
-                                    <p>${event.description}</p>
-                                    <p class="text-muted">${event.date} à ${event.time}</p>
-                                    <a href="/admin/events/${event.id}" class="btn btn-sm btn-primary">🔍 Détails</a>
-                                </div>
-                            `;
-                        } else {
-                            eventCard.innerHTML = `
-                                <div class="card-body">
-                                    <h5>${event.title}</h5>
-                                    <p>${event.description}</p>
-                                    <p class="text-muted">${event.date} à ${event.time}</p>
-                                    <a href="/admin/events/${event.id}" class="btn btn-sm btn-primary">🔍 Détails</a>
-                                </div>
-                            `;
-                        }
-
-                        eventContainer.appendChild(eventCard);
-                    });
-
-                    if (!data.next_page) {
-                        loading.innerHTML = 'Plus d\'événements à afficher.';
-                    }
-                } else {
-                    loading.innerHTML = 'Il n\'y a plus d\'événements à charger.';
-                }
-
-                loading.style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement des événements:', error);
-                loading.style.display = 'none';
-            });
+createEventForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log('Formulaire soumis');
+    
+    const formData = new FormData(createEventForm);
+    // Afficher les données du formulaire
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
     }
-
-    // Handle form submission
-    const createEventForm = document.getElementById('createEventForm');
-    createEventForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = new FormData(createEventForm);
-
-        fetch('/admin/events', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Close the modal and reset the form
-                $('#createEventModal').modal('hide');
-                createEventForm.reset();
-                alert('Événement créé avec succès');
-                location.reload();  // Reload the page to show the new event
-            } else {
-                alert('Erreur lors de la création de l\'événement');
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            alert('Une erreur est survenue');
+    
+    console.log('Envoi de la requête AJAX...');
+    fetch('{{ route("admin.events.store") }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        }
+    })
+    .then(response => {
+        console.log('Réponse reçue', response);
+        console.log('Statut:', response.status);
+        return response.json().catch(error => {
+            console.error('Erreur parsing JSON:', error);
+            throw new Error('Réponse non-JSON');
         });
+    })
+    .then(data => {
+        console.log('Données reçues:', data);
+        // reste du code...
+    })
+    .catch(error => {
+        console.error('Erreur complète:', error);
+        alert('Une erreur est survenue: ' + error.message);
     });
+});
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+        var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
+        chart.render();
 </script>
 @endsection

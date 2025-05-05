@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 class EventController extends Controller
 {
@@ -44,7 +46,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('Frontend.user.admin.events.list');
+        return view('Frontend.user.create');
     }
 
     /**
@@ -52,35 +54,61 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation des données envoyées par le formulaire
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        Log::info('Requête reçue dans store()', [
+            'all' => $request->all(),
+            'files' => $request->hasFile('image') ? 'Oui' : 'Non'
         ]);
     
-        // Récupération des données envoyées
-        $data = $request->all();
-    
-        // Traitement de l'image si elle est présente
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $data['image'] = $imagePath;
-        }
-    
         try {
-            // Tentative d'insertion des données dans la base de données
-            Event::create($data);
-    
-            // Si tout se passe bien, rediriger avec un message de succès
-            return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
+            // Validation des données
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'date' => 'required|date',
+                'time' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+            
+            Log::info('Validation passée', $validated);
+            
+            // Traitement de l'image
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('events', 'public');
+                $validated['image'] = $imagePath;
+                Log::info('Image traitée', ['path' => $imagePath]);
+            }
+            
+            // Création de l'événement
+            Log::info('Tentative de création avec les données', $validated);
+            $event = Event::create($validated);
+            Log::info('Événement créé', ['id' => $event->id]);
+            
+            return response()->json([
+                'success' => true,
+                'event' => $event,
+                'message' => 'Événement créé avec succès.'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Erreur de validation', [
+                'errors' => $e->errors(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur de validation',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
-            // En cas d'erreur, retourner un message d'erreur avec l'exception
-            return back()->with('error', 'Une erreur est survenue : ' . $e->getMessage());
+            Log::error('Exception dans store()', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue: ' . $e->getMessage()
+            ], 500);
         }
     }
+    
     
     
     /**
