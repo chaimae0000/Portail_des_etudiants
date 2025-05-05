@@ -180,12 +180,7 @@ Bootstrap 5 Dashboard Admin Template
                             </div>
                         </li>
 
-                        <li>
-                            <a class="dropdown-item" href="profile.html">
-                                <i class="bi-person me-2"></i>
-                                Profile
-                            </a>
-                        </li>
+                        
 
                         <li>
                             <a class="dropdown-item" href="setting.html">
@@ -232,12 +227,7 @@ Bootstrap 5 Dashboard Admin Template
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.events.create') }}">
-                                <i class="bi-person me-2"></i>
-                                Profile
-                            </a>
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('espace') }}">
@@ -267,7 +257,7 @@ Bootstrap 5 Dashboard Admin Template
                         </li>
 
                         <li class="nav-item border-top mt-auto pt-2">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('logout') }}">
                                 <i class="bi-box-arrow-left me-2"></i>
                                 Logout
                             </a>
