@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 class EventController extends Controller
 {
@@ -44,43 +46,38 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('Frontend.user.admin.events.list');
+        return view('Frontend.user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        // Validation des données envoyées par le formulaire
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-    
-        // Récupération des données envoyées
-        $data = $request->all();
-    
-        // Traitement de l'image si elle est présente
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $data['image'] = $imagePath;
-        }
-    
-        try {
-            // Tentative d'insertion des données dans la base de données
-            Event::create($data);
-    
-            // Si tout se passe bien, rediriger avec un message de succès
-            return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
-        } catch (\Exception $e) {
-            // En cas d'erreur, retourner un message d'erreur avec l'exception
-            return back()->with('error', 'Une erreur est survenue : ' . $e->getMessage());
-        }
+  public function store(Request $request)
+{
+    // Valider les champs du formulaire
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'date' => 'required|date',
+        'time' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    // Préparer les données à enregistrer
+    $data = $request->only(['title', 'description', 'date', 'time']);
+
+    // Gérer l'upload de l'image si présente
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('events', 'public');
     }
+
+    // Créer l'événement
+    Event::create($data);
+
+    // Rediriger avec message de succès
+    return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
+}
+
     
     
     /**
