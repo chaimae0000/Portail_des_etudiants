@@ -28,8 +28,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\IsAdmin;
 
 // Route pour soumettre le formulaire et créer un événement
-Route::post('/admin/events', [EventController::class, 'store'])->name('admin.events.store');
- 
+//Route::post('/admin/events', [EventController::class, 'store'])->name('admin.events.store');
+Route::post('/events', [EventController::class, 'store'])->name('admin.events.store');
+
 
     Route::middleware(['auth', IsAdmin::class])->group(function () {
         Route::get('/espace', [Espace::class, 'index'])->name('espace');
