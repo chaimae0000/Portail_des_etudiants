@@ -21,6 +21,8 @@
     <link href="{{ asset('assets/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/apexcharts.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/tooplate-mini-finance.css') }}" rel="stylesheet">
+
+
 </head>
 <!--
 
@@ -367,6 +369,9 @@ Bootstrap 5 Dashboard Admin Template
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
     </script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
 
 </body>
 

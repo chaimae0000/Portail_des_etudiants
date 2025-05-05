@@ -1,32 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <div class="container">
-        <h1>Détails de l'événement</h1>
+<div class="container">
+    <h1 class="mb-4">📅 Liste des Événements</h1>
 
-        <!-- Vérification des messages de succès -->
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <!-- Détails de l'événement -->
-        <div class="card">
-            <div class="card-header">
-                <h3>{{ $event->title }}</h3>
-            </div>
-
+    @foreach($events as $event)
+        <div class="card mb-4 shadow-sm">
             <div class="card-body">
-                <p><strong>Description:</strong> {{ $event->description }}</p>
-                <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</p>
-                <p><strong>Heure:</strong> {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
-            </div>
-
-            <div class="card-footer">
-                <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">Retour à la liste</a>
-                <a href="{{ route('admin.events.edit', $event) }}" class="btn btn-warning">Modifier l'événement</a>
+                <h4 class="card-title">{{ $event->title }}</h4>
+                <p class="card-text">{{ Str::limit($event->description, 150) }}</p>
+                <p class="text-muted">📆 {{ $event->date }} à {{ $event->time }}</p>
+                
+                <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-primary">
+                    🔍 Détails
+                </a>
             </div>
         </div>
-    </div>
+    @endforeach
+</div>
 @endsection
