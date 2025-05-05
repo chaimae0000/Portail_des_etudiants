@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\Espace;
 use App\Http\Controllers\Admin\AdherantController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Str;
 Route::resource('events', EventController::class);
 
