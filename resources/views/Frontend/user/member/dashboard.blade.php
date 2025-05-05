@@ -229,7 +229,7 @@ Bootstrap 5 Dashboard Admin Template
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.events.create') }}">
+                                <a class="nav-link" href="">
                                     <i class="bi-person me-2"></i>
                                     Profile
                                 </a>

@@ -1,57 +1,37 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
+    <h1>Liste des adhérents</h1>
 
-    <div class="title-group mb-4 text-center">
-        <h1 class="h2 mb-2">Espace Administrateur</h1>
-        <small class="text-muted">Gérez votre application depuis cette interface.</small>
-    </div>
-
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
-        <div class="d-flex flex-wrap gap-5 justify-content-center">
-            <!-- Tuile Adhérents -->
-            <a href="" class="admin-tile bg-primary text-white shadow">
-                <i class="bi bi-people-fill"></i>
-                <span>Adhérents</span>
-            </a>
-
-            <!-- Tuile Messages -->
-            <a href="#" class="admin-tile bg-success text-white shadow">
-                <i class="bi bi-chat-dots-fill"></i>
-                <span>Messages</span>
-            </a>
-        </div>
-    </div>
-
-    <style>
-        .admin-tile {
-            width: 220px;
-            height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .admin-tile i {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .admin-tile:hover {
-            transform: translateY(-8px);
-            opacity: 0.95;
-        }
-
-        .admin-tile:hover i {
-            transform: scale(1.15);
-        }
-    </style>
-
+    <!-- Tableau pour afficher les utilisateurs (adhérents) -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(is_iterable($users) && $users->isNotEmpty()) <!-- Vérifie que $users est une collection et n'est pas vide -->
+                @foreach ($users as $user)
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            <a href="" class="btn btn-primary">Modifier</a>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="4" class="text-center">Aucun adhérent trouvé.</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+</div>
 @endsection

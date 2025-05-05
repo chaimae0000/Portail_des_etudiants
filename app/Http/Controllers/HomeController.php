@@ -80,22 +80,23 @@ class HomeController extends Controller
         return redirect('/login')->with('success', 'Account created! You can now login.');
     }
     public function adminDashboard()
-    {
-        $user = Session::get('user');
-        if (!$user || $user->role !== 'admin') {
-            return redirect('/login');
-        }
-
-        return view('frontend.user.admin.index', ['user' => $user]);
+{
+    $user = Auth::user();
+    if (!$user || $user->role !== 'admin') {
+        return redirect('/login');
     }
 
-    public function memberDashboard()
-    {
-        $user = Session::get('user');
-        if (!$user || $user->role !== 'membre') {
-            return redirect('/login');
-        }
+    return view('frontend.user.admin.index', ['user' => $user]);
+}
 
-        return view('frontend.user.member.dashboard', ['user' => $user]);
+public function memberDashboard()
+{
+    $user = Auth::user();
+    if (!$user || $user->role !== 'membre') {
+        return redirect('/login');
     }
+
+    return view('frontend.user.member.dashboard', ['user' => $user]);
+}
+
 }
