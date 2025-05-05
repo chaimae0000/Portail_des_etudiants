@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -25,36 +26,31 @@ class HomeController extends Controller
         return view('frontend.user.userlogin'); // Change this to your login blade path
     }
     public function submitLogin(Request $request)
-    {
-        // Validate input fields
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+{
+    // Validation
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        // Fetch the user from the database based on email
-        $user = DB::table('users')->where('email', $request->email)->first();
+    // Récupérer l'utilisateur depuis la base de données
+    $user = DB::table('users')->where('email', $request->email)->first();
 
-        // Check if user exists and the password matches
-        if ($user && Hash::check($request->password, $user->password)) {
-            // Store the user object in session (ensure it's stored correctly)
-            Session::put('user', $user);
+    // Vérifier si l'utilisateur existe et que le mot de passe est correct
+    if ($user && Hash::check($request->password, $user->password)) {
+        // Utiliser Auth::login() au lieu de Session::put()
+        Auth::loginUsingId($user->id);
 
-            // Redirect based on user role
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.index');
-            } elseif ($user->role === 'membre') {
-                return redirect()->route('member.dashboard');
-            } else {
-                // If the credentials are incorrect, show an error
-                return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
-            }
+        // Rediriger selon le rôle de l'utilisateur
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.index');
+        } elseif ($user->role === 'membre') {
+            return redirect()->route('member.dashboard');
         }
-        else {
-        // ✅ Handle failed login
+    } else {
         return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
     }
-    }
+}
 
 
 

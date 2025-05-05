@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -225,13 +226,6 @@ Bootstrap 5 Dashboard Admin Template
                                 <a class="nav-link" href="{{ route('admin.index') }}">
                                     <i class="bi-wallet me-2"></i>
                                     Evenements
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.events.create') }}">
-                                    <i class="bi-person me-2"></i>
-                                    Profile
                                 </a>
                             </li>
 

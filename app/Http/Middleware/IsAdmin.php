@@ -12,16 +12,18 @@ class IsAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role && Auth::user()->role === 'admin') {
+        // Vérifier si l'utilisateur est authentifié et si son rôle est 'admin'
+        if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-    
+
+        // Si l'utilisateur n'est pas un admin, on lui retourne une erreur 403
         abort(403, 'Accès réservé aux administrateurs.');
     }
-    
-    
 }

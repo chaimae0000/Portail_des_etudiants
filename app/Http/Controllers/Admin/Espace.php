@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class Espace extends Controller
 {
@@ -10,5 +11,14 @@ class Espace extends Controller
     {
         return view('Frontend.user.admin.espace.espace');
     }
-    
+    public function visualiserAdherants()
+    {
+        return view('frontend.user.admin.espace.gestion_adherants.visualiser_adherants');
+    }
+
+    public function messages()
+    {
+        return view('frontend.user.admin.espace.gestion_msgs.messages');
+       
+    }
 }
