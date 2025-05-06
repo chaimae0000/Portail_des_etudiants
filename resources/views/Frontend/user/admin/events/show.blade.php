@@ -8,8 +8,8 @@
         <img src="{{ asset('storage/' . $event->image) }}" alt="Image de l'événement" class="img-fluid rounded">
     </div>
          @endif
+        <p><strong>Description : </strong></p>
         <p>{{ $event->description }}</p>
-        
         <p class="text-muted"><strong>{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</strong> à {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
 
 
