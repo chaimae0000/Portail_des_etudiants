@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;  
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\Espace;
+
 use App\Http\Controllers\Admin\AdherantController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Str;
@@ -41,7 +42,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/espace', [Espace::class, 'index'])->name('espace');
     Route::get('/gestion_adherants/visualiser-adherants', [AdherantController::class, 'index'])->name('visualiser_adherants');
 
-    Route::get('/messages', [Espace::class, 'messages'])->name('messages');
+    Route::get('/admin/messages', [App\Http\Controllers\Admin\MessageController::class, 'index'])->name('messages');
+Route::post('/admin/messages/{id}/reply', [App\Http\Controllers\Admin\MessageController::class, 'reply'])->name('messages.reply');
+
    
     Route::post('/admin/adherants/store', [AdherantController::class, 'store'])->name('adherants.store');
 
