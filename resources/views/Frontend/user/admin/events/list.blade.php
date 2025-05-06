@@ -86,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 let imageHtml = '';
                 if (event.image) {
-                    imageHtml = ` <img src="{{ asset('storage/' . $event->image) }}" alt="Image">`;
+                    imageHtml = `<img src="/storage/${event.image}" alt="Image">`;
+
                 }
 
                 card.innerHTML = `

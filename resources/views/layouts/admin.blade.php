@@ -222,7 +222,7 @@ Bootstrap 5 Dashboard Admin Template
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index') }}">
+                            <a class="nav-link" href="{{ route('events.list') }}">
                                 <i class="bi-wallet me-2"></i>
                                 Evenements
                             </a>

@@ -73,6 +73,7 @@ public function update(Request $request, $id)
 
     $user = User::findOrFail($id);
 
+
     // S’il y a une nouvelle photo, la stocker
     if ($request->hasFile('photo')) {
         // Supprimer l'ancienne photo si elle existe
@@ -96,7 +97,8 @@ public function destroy($id)
     $user = User::findOrFail($id);
     $user->delete();
 
-    return redirect()->route('visualiser_adherants')->with('success', 'Adhérent supprimé.');
+    return redirect()->route('visualiser_adherants')->with('danger', 'Adhérent supprimé.');
 }
+
 
 }

@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
+<a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅️ Retour</a>
     <h2>📬 Messages Reçus</h2>
 
     @if(session('success'))
