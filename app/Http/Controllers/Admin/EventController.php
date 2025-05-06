@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class EventController extends Controller
@@ -52,31 +53,6 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-/*  public function store(Request $request)
-{
-    // Valider les champs du formulaire
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'date' => 'required|date',
-        'time' => 'required',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
-
-    // Préparer les données à enregistrer
-    $data = $request->only(['title', 'description', 'date', 'time']);
-
-    // Gérer l'upload de l'image si présente
-    if ($request->hasFile('image')) {
-        $data['image'] = $request->file('image')->store('events', 'public');
-    }
-
-    // Créer l'événement
-    Event::create($data);
-
-    // Rediriger avec message de succès
-    return redirect()->route('admin.events.index')->with('success', 'Événement créé avec succès.');
-}*/
 
 public function store(Request $request)
 {
@@ -123,7 +99,8 @@ public function store(Request $request)
     public function show(string $id)
     {
         $event = Event::findOrFail($id);
-        return view('admin.events.show', compact('event'));
+        return view('Frontend.user.admin.events.show', compact('event'));
+
     }
 
     /**
@@ -131,7 +108,9 @@ public function store(Request $request)
      */
     public function edit(string $id)
     {
-        return view('Frontend.user.admin.events.edit', compact('event'));
+        $event = Event::findOrFail($id); // Trouver l'événement par son ID
+        return view('events.edit', compact('event')); // Retourner la vue avec les données de l'événement
+ 
     }
 
     /**
@@ -139,28 +118,78 @@ public function store(Request $request)
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        // Valider les données du formulaire
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
-        $event = Event::findOrFail($id);
-        $event->update($request->all());
-    
-        return redirect()->route('admin.events.index')->with('success', 'Event updated successfully');
-    
+        
+        try {
+            // Trouver l'événement à mettre à jour
+            $event = Event::findOrFail($id);
+            
+            // Préparer les données à mettre à jour
+            $updateData = [
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                'date' => $validatedData['date'],
+                'time' => $validatedData['time'],
+            ];
+            
+            // Traiter l'image si elle est fournie
+            if ($request->hasFile('image')) {
+                // Supprimer l'ancienne image si elle existe
+                if ($event->image && file_exists(public_path('storage/' . $event->image))) {
+                    unlink(public_path('storage/' . $event->image));
+                }
+                
+                // Stocker la nouvelle image
+                $imagePath = $request->file('image')->store('events', 'public');
+                $updateData['image'] = $imagePath;
+            }
+            
+            // Débogage avant la mise à jour
+            Log::info('Données à mettre à jour pour l\'événement ' . $id . ':', $updateData);
+            
+            // Mettre à jour l'événement
+            $updated = $event->update($updateData);
+            
+            // Débogage après la mise à jour
+            Log::info('Résultat de la mise à jour: ' . ($updated ? 'Succès' : 'Échec'));
+            
+            if (!$updated) {
+                return back()->withInput()->with('error', 'Échec de la mise à jour de l\'événement. Veuillez réessayer.');
+            }
+            
+            // Rediriger avec un message de succès
+            return redirect()->route('admin.events.show', $event->id)->with('success', 'L\'événement a été mis à jour avec succès.');
+        } catch (\Exception $e) {
+            // Log l'erreur
+            Log::error('Erreur lors de la mise à jour de l\'événement: ' . $e->getMessage());
+            
+            // Rediriger avec un message d'erreur
+            return back()->withInput()->with('error', 'Une erreur est survenue: ' . $e->getMessage());
+        }
     }
+    
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $event = Event::findOrFail($id);
-        $event->delete();
-        return redirect()->route('admin.events.index')->with('success', 'Event deleted successfully');
-    
+               // Trouver l'événement par son ID
+               $event = Event::findOrFail($id);
+
+               // Supprimer l'événement de la base de données
+               $event->delete();
+       
+               // Retourner à la page des événements avec un message de succès
+               return redirect()->route('admin.events.index')->with('success', 'Événement supprimé avec succès.');
     }
+    
 }
