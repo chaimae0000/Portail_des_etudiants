@@ -41,12 +41,11 @@
             <div class="card mb-3">
                 @if($event->image)
                   <!-- <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top" style="max-height:200px;" alt="Image"> -->
-                    <img src="{{ asset('storage/' . $event->image) }}" alt="Image">
+                    <img src="{{ asset('storage/' . $event->image) }}" alt="Image" style="max-height:300px; width:100%; object-fit:auto;">
 
                 @endif
                 <div class="card-body">
                     <h5>{{ $event->title }}</h5>
-                    <p>{{ $event->description }}</p>
                     <p class="text-muted">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }} à {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
                     <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-sm btn-primary">🔍 Détails</a>
 

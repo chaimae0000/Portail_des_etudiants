@@ -25,16 +25,17 @@ https://www.tooplate.com/view/2135-mini-finance
 
   --body-font-family:             'Unbounded';
 
-  --h1-font-size:                 74px;
-  --h2-font-size:                 46px;
-  --h3-font-size:                 32px;
-  --h4-font-size:                 28px;
-  --h5-font-size:                 24px;
-  --h6-font-size:                 22px;
-  --p-font-size:                  18px;
-  --menu-font-size:               14px;
-  --btn-font-size:                12px;
-  --copyright-font-size:          10px;
+
+  --h1-font-size: 60px; /* Réduit de 74px */
+  --h2-font-size: 38px; /* Réduit de 46px */
+  --h3-font-size: 26px; /* Réduit de 32px */
+  --h4-font-size: 22px; /* Réduit de 28px */
+  --h5-font-size: 20px; /* Réduit de 24px */
+  --h6-font-size: 18px; /* Réduit de 22px */
+  --p-font-size: 16px;  /* Réduit de 18px */
+  --menu-font-size: 12px; /* Réduit de 14px */
+  --btn-font-size: 11px; /* Réduit de 12px */
+  --copyright-font-size: 9px; /* Réduit de 10px */
 
   --border-radius-large:          100px;
   --border-radius-medium:         20px;
@@ -139,7 +140,7 @@ strong {
 }
 
 .section-padding {
-  padding: 100px 50px;
+  padding: 50px 25px;
 }
 
 .title-group small {
@@ -574,7 +575,7 @@ strong {
   position: relative;
   overflow: hidden;
   margin-bottom: 24px;
-  padding: 30px;
+  padding: 20px;
 }
 
 .custom-block h2,
