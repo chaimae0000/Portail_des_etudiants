@@ -223,6 +223,13 @@ Bootstrap 5 Dashboard Admin Template
                         </li>
 
                         <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.store') }}">
+                                    <i class="bi-wallet me-2"></i>
+                                    Posts
+                                </a>
+                            </li>
+                            
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('events.list') }}">
                                 <i class="bi-wallet me-2"></i>
                                 Evenements
@@ -267,8 +274,7 @@ Bootstrap 5 Dashboard Admin Template
                     </ul>
                 </div>
             </nav>
-
-            <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+            <main class="main-wrapper offset-md-3 offset-lg-3 col-md-9 col-lg-9 ms-sm-auto py-4 px-md-4 border-start">
                 @yield('content')
             </main>
 

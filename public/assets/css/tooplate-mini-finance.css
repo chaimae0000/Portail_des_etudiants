@@ -490,6 +490,17 @@ strong {
   background: var(--primary-color);
   color: var(--white-color);
 }
+#sidebarMenu {
+  position: fixed;
+  top: 56px; /* hauteur de ta navbar */
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  width: 250px; /* ou selon ton layout */
+  padding-top: 1rem;
+  overflow-y: auto;
+  background-color: #fff; /* ou la couleur souhaitée */
+}
 
 .navbar-toggler {
   background: var(--primary-color);

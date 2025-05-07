@@ -221,7 +221,12 @@ Bootstrap 5 Dashboard Admin Template
                                     Overview
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.store') }}">
+                                    <i class="bi-wallet me-2"></i>
+                                    Posts
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('events.list') }}">
                                     <i class="bi-wallet me-2"></i>

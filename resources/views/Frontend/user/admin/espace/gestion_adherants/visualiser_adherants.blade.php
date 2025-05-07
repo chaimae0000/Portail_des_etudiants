@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-<a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅️Retour</a>
+<a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅Retour</a>
 
     <h2 class="mb-4 text-center">👥 Liste des Adhérents</h2>
 

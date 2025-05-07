@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\Espace;
 
+
 use App\Http\Controllers\Admin\AdherantController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Admin\MessageController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\CommentController;
+
 
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
     Route::resource('/events', EventController::class)->names([
@@ -44,11 +48,13 @@ Route::post('/admin/messages/{id}/reply', [App\Http\Controllers\Admin\MessageCon
     Route::post('/admin/adherants/store', [AdherantController::class, 'store'])->name('adherants.store');
 
     Route::get('/admin/adherants/{id}', [AdherantController::class, 'show'])->name('adherants.show');
-Route::put('/admin/adherants/{id}', [AdherantController::class, 'update'])->name('adherants.update');
-Route::delete('/admin/adherants/{id}', [AdherantController::class, 'destroy'])->name('adherants.destroy');
+    Route::put('/admin/adherants/{id}', [AdherantController::class, 'update'])->name('adherants.update');
+    Route::delete('/admin/adherants/{id}', [AdherantController::class, 'destroy'])->name('adherants.destroy');
 
 
-    
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
     
     
     
@@ -56,3 +62,8 @@ Route::delete('/admin/adherants/{id}', [AdherantController::class, 'destroy'])->
 Route::middleware(['auth', 'IsAdmin'])->get('/admin-test', function () {
     return 'Vous avez accès à la page admin';
 });
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
+Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
