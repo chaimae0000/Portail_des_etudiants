@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -13,36 +14,36 @@ class PostController extends Controller
     {
         $posts = Post::with('user')->latest()->get();
         return view('Frontend.user.admin.posts.posts', compact('posts'));
-
     }
+
     public function store(Request $request)
-{
-    $request->validate([
-        'content' => 'required|string',
-        'image' => 'nullable|image|max:2048',
-    ]);
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
 
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('posts', 'public');
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+        }
+
+        $post = new Post();
+        $post->user_id = Auth::user()->id;
+        $post->content = $request->content;
+        $post->image_path = $imagePath;
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post publié avec succès.');
     }
-
-    $post = new Post();
-    $post->user_id = Auth::user()->id;
-    $post->content = $request->content;
-    $post->image_path = $imagePath;
-    $post->save();
-
-    return redirect()->back()->with('success', 'Post publié avec succès.');
-}
 
     public function like(Post $post)
     {
         $userId = Auth::user()->id;
-    
+        
         // Vérifie si l'utilisateur a déjà liké ce post
         $existing = $post->likes()->where('user_id', $userId)->first();
-    
+        
         if ($existing) {
             // Option : on enlève le like s'il existe déjà (toggle)
             $existing->delete();
@@ -51,54 +52,61 @@ class PostController extends Controller
                 'user_id' => $userId,
             ]);
         }
-    
+        
         return back();
     }
+
     public function destroy($id)
-{
-    $post = Post::findOrFail($id);
+    {
+        $post = Post::findOrFail($id);
 
-    // Optionnel : autoriser uniquement le créateur à supprimer
-    if (Auth::id() !== $post->user_id) {
-        abort(403, 'Action non autorisée');
+        // Autoriser uniquement le créateur à supprimer
+        if (Auth::id() !== $post->user_id) {
+            abort(403, 'Action non autorisée');
+        }
+
+        // Supprimer l'image si elle existe
+        if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
+            Storage::disk('public')->delete($post->image_path);
+        }
+
+        $post->delete();
+
+        return redirect()->back()->with('success', 'Post supprimé avec succès.');
     }
 
-    $post->delete();
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
 
-    return redirect()->route('posts.index')->with('success', 'Post supprimé avec succès.');
-}
-public function edit($id)
-{
-    $post = Post::findOrFail($id);
+        if (Auth::id() !== $post->user_id) {
+            abort(403, 'Action non autorisée');
+        }
 
-    if (Auth::id() !== $post->user_id) {
-        abort(403, 'Action non autorisée');
+        $request->validate([
+            'content' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            // Supprimer ancienne image si elle existe
+            if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
+                Storage::disk('public')->delete($post->image_path);
+            }
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $post->image_path = $imagePath;
+        } elseif ($request->has('delete_image') && $post->image_path) {
+            // Supprimer l'image si la case est cochée
+            if (Storage::disk('public')->exists($post->image_path)) {
+                Storage::disk('public')->delete($post->image_path);
+            }
+            $post->image_path = null;
+        }
+
+        $post->content = $request->content;
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post mis à jour avec succès.');
     }
-
-    return view('posts.edit', compact('post'));
-}
-
-public function update(Request $request, $id)
-{
-    $post = Post::findOrFail($id);
-
-    if (Auth::id() !== $post->user_id) {
-        abort(403, 'Action non autorisée');
-    }
-
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'body' => 'required|string',
-    ]);
-
-    $post->update([
-        'title' => $request->title,
-        'body' => $request->body,
-    ]);
-
-    return redirect()->route('posts.show', $post->id)->with('success', 'Post mis à jour avec succès.');
-}
-
-
-
 }

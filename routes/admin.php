@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\MessageController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
@@ -54,6 +55,7 @@ Route::post('/admin/messages/{id}/reply', [App\Http\Controllers\Admin\MessageCon
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     
     
@@ -64,6 +66,5 @@ Route::middleware(['auth', 'IsAdmin'])->get('/admin-test', function () {
 });
 Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('auth');
-Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
-Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
+Route::delete('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'destroy'])->name('posts.destroy');
+Route::put('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'update'])->name('posts.update');

@@ -216,9 +216,9 @@ Bootstrap 5 Dashboard Admin Template
                     <div class="position-sticky py-4 px-3 sidebar-sticky">
                         <ul class="nav flex-column h-100">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">
+                                <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
                                     <i class="bi-house-fill me-2"></i>
-                                    Overview
+                                    Dashboard
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <head>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -191,13 +192,6 @@ Bootstrap 5 Dashboard Admin Template
                             </a>
                         </li>
 
-                        <li>
-                            <a class="dropdown-item" href="help-center.html">
-                                <i class="bi-question-circle me-2"></i>
-                                Help
-                            </a>
-                        </li>
-
                         <li class="border-top mt-3 pt-2 mx-4">
                             <a class="dropdown-item ms-0 me-0" href="#">
                                 <i class="bi-box-arrow-left me-2"></i>
@@ -216,9 +210,9 @@ Bootstrap 5 Dashboard Admin Template
                 <div class="position-sticky py-4 px-3 sidebar-sticky">
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">
+                            <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
                                 <i class="bi-house-fill me-2"></i>
-                                Overview
+                                Dashboard
                             </a>
                         </li>
 
@@ -284,7 +278,6 @@ Bootstrap 5 Dashboard Admin Template
 
     <!-- JAVASCRIPT FILES -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/apexcharts.min.js"></script>
     <script src="js/custom.js"></script>
 
