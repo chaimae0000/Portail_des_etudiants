@@ -392,11 +392,15 @@ strong {
   padding: 58px 0 0;
 }
 
-.sidebar-sticky {
+/* .sidebar-sticky {
   height: calc(100vh - 58px);
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
+} */
+.sidebar-sticky {
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
 }
 
 .logo-image {
@@ -501,6 +505,8 @@ strong {
   overflow-y: auto;
   background-color: #fff; /* ou la couleur souhaitée */
 }
+
+
 
 .navbar-toggler {
   background: var(--primary-color);

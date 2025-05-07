@@ -39,7 +39,7 @@ Bootstrap 5 Dashboard Admin Template
 </head>
 
 <body>
-    
+
     <header class="navbar sticky-top flex-md-nowrap">
         <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
             <a class="navbar-brand" href="index.html">
@@ -207,7 +207,7 @@ Bootstrap 5 Dashboard Admin Template
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
-                <div class="position-sticky py-4 px-3 sidebar-sticky">
+                
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
