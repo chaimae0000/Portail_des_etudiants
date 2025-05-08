@@ -42,19 +42,16 @@ Bootstrap 5 Dashboard Admin Template
 
     <header class="navbar sticky-top flex-md-nowrap">
         <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi-box"></i>
-                Mini Finance
-            </a>
+           <a class="navbar-brand" href="{{ route('dashboard') }}">
+    <img src="{{ asset('images/emsi-logo.jpg') }}" alt="Logo EMSI" style="height: 40px;">
+    VIE EMSI
+</a>
         </div>
 
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <form class="custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0" action="#" method="get" role="form">
-            <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
-        </form>
 
         <div class="navbar-nav me-lg-2">
             <div class="nav-item text-nowrap d-flex align-items-center">
@@ -210,14 +207,14 @@ Bootstrap 5 Dashboard Admin Template
 
                         <li class="nav-item">
                                 <a class="nav-link" href="{{ route('posts.store') }}">
-                                    <i class="bi-wallet me-2"></i>
+                                    <i class="bi bi-pencil-square me-2"></i>
                                     Posts
                                 </a>
                             </li>
                             
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('events.list') }}">
-                                <i class="bi-wallet me-2"></i>
+                            <i class="bi bi-calendar-event me-2"></i>
                                 Evenements
                             </a>
                         </li>
@@ -242,7 +239,8 @@ Bootstrap 5 Dashboard Admin Template
                     </ul>
                 </div>
             </nav>
-            <main class="main-wrapper offset-md-3 offset-lg-3 col-md-9 col-lg-9 ms-sm-auto py-4 px-md-4 border-start">
+<main class="main-wrapper py-4 px-md-4 border-start" style="margin-left: 12%; /* équivalent à col-2 */">
+    
                 @yield('content')
             </main>
 

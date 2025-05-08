@@ -101,15 +101,3 @@
        
     </div>
 @endsection
-<!-- @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const editBtn = document.getElementById('editBtn');
-        const editForm = document.getElementById('editForm');
-
-        editBtn.addEventListener('click', function () {
-            editForm.style.display = (editForm.style.display === 'none') ? 'block' : 'none';
-        });
-    });
-</script> 
-@endsection-->
