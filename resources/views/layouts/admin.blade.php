@@ -177,23 +177,15 @@ Bootstrap 5 Dashboard Admin Template
                                 <img src="images/medium-shot-happy-man-smiling.jpg" class="profile-image img-fluid me-3" alt="">
 
                                 <div class="d-flex flex-column">
-                                    <small>Thomas</small>
-                                    <a href="#">thomas@site.com</a>
+                                    <small>Admin</small>
+                                    <a href="#">admin@gmail.com</a>
                                 </div>
                             </div>
                         </li>
 
-                        
-
-                        <li>
-                            <a class="dropdown-item" href="setting.html">
-                                <i class="bi-gear me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
                         <li class="border-top mt-3 pt-2 mx-4">
-                            <a class="dropdown-item ms-0 me-0" href="#">
+                        <a class="nav-link" href="{{ route('logout') }}">
+                            <!-- <a class="dropdown-item ms-0 me-0" href="#"> -->
                                 <i class="bi-box-arrow-left me-2"></i>
                                 Logout
                             </a>
@@ -210,7 +202,7 @@ Bootstrap 5 Dashboard Admin Template
                 
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
+                            <a class="nav-link active" aria-current="page" href="{{ route('dashboard.index') }}">
                                 <i class="bi-house-fill me-2"></i>
                                 Dashboard
                             </a>
@@ -239,25 +231,7 @@ Bootstrap 5 Dashboard Admin Template
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="setting.html">
-                                <i class="bi-gear me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="help-center.html">
-                                <i class="bi-question-circle me-2"></i>
-                                Help Center
-                            </a>
-                        </li>
-
-                        <li class="nav-item featured-box mt-lg-5 mt-4 mb-4">
-                            <img src="images/credit-card.png" class="img-fluid" alt="">
-
-                            <a class="btn custom-btn" href="#">Upgrade</a>
-                        </li>
+                
 
                         <li class="nav-item border-top mt-auto pt-2">
                             <a class="nav-link" href="{{ route('logout') }}">

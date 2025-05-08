@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         // Rediriger selon le rôle de l'utilisateur
         if ($user->role === 'admin') {
-            return redirect()->route('admin.index');
+            return redirect()->route('dashboard'); // Change this to your admin dashboard route
         } elseif ($user->role === 'membre') {
             return redirect()->route('member.dashboard');
         }
