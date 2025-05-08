@@ -202,7 +202,7 @@ Bootstrap 5 Dashboard Admin Template
                 
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('dashboard.index') }}">
+                            <a class="nav-link active" aria-current="page" href="{{ route('dashboard') }}">
                                 <i class="bi-house-fill me-2"></i>
                                 Dashboard
                             </a>
