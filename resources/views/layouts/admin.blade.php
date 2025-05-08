@@ -166,12 +166,12 @@ Bootstrap 5 Dashboard Admin Template
 
                 <div class="dropdown px-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="	{{ asset('images/medium-shot-happy-man-smiling.jpg') }}" class="profile-image img-fluid" alt="">
+                        <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
                     </a>
                     <ul class="dropdown-menu bg-white shadow">
                         <li>
                             <div class="dropdown-menu-profile-thumb d-flex">
-                                <img src="images/medium-shot-happy-man-smiling.jpg" class="profile-image img-fluid me-3" alt="">
+                                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
 
                                 <div class="d-flex flex-column">
                                     <small>Admin</small>
