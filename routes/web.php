@@ -40,7 +40,8 @@ Route::post('/login-submit', [HomeController::class, 'submitLogin'])->name('logi
 Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::post('/storeRegister', [HomeController::class, 'storeRegister'])->name('storeRegister');
 Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.index');
-Route::get('/member/dashboard', [HomeController::class, 'memberDashboard'])->name('member.dashboard');
+Route::get('/member/index', [HomeController::class, 'memberIndex'])->name('member.index');
 Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 require __DIR__.'/admin.php';
+require __DIR__.'/membre.php';
 

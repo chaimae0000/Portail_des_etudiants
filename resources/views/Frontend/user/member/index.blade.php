@@ -216,47 +216,26 @@ Bootstrap 5 Dashboard Admin Template
                 <div class="position-sticky py-4 px-3 sidebar-sticky">
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">
+                            <a class="nav-link active" aria-current="page" href="">
                                 <i class="bi-house-fill me-2"></i>
-                                Overview
+                                espace membre
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('events.list') }}">
+                            <a class="nav-link" href="">
                                 <i class="bi-wallet me-2"></i>
                                 Evenements
                             </a>
                         </li>
 
-                        
-
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('espaceadmin') }}">
-                                <i class="bi-person me-2"></i>
-                                Espace admin
+                            <a class="nav-link" href="">
+                                <i class="bi-file-earmark-text me-2" ></i>
+                                publications
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="setting.html">
-                                <i class="bi-gear me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="help-center.html">
-                                <i class="bi-question-circle me-2"></i>
-                                Help Center
-                            </a>
-                        </li>
-
-                        <li class="nav-item featured-box mt-lg-5 mt-4 mb-4">
-                            <img src="images/credit-card.png" class="img-fluid" alt="">
-
-                            <a class="btn custom-btn" href="#">Upgrade</a>
-                        </li>
 
                         <li class="nav-item border-top mt-auto pt-2">
                             <a class="nav-link" href="{{ route('logout') }}">

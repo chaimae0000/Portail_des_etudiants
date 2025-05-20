@@ -34,7 +34,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/admin/setting', [EventController::class, 'index'])->name('setting');
 
     // Autres routes espace
-    Route::get('/espace', [Espace::class, 'index'])->name('espace');
+    Route::get('/espace', [Espace::class, 'index'])->name('espaceadmin');
     Route::get('/gestion_adherants/visualiser-adherants', [AdherantController::class, 'index'])->name('visualiser_adherants');
 
     Route::get('/admin/messages', [App\Http\Controllers\Admin\MessageController::class, 'index'])->name('messages');

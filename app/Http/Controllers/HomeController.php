@@ -45,7 +45,7 @@ class HomeController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('admin.index');
         } elseif ($user->role === 'membre') {
-            return redirect()->route('member.dashboard');
+            return redirect()->route('member.index');
         }
     } else {
         return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
@@ -89,14 +89,14 @@ class HomeController extends Controller
     return view('frontend.user.admin.index', ['user' => $user]);
 }
 
-public function memberDashboard()
+public function memberIndex()
 {
     $user = Auth::user();
     if (!$user || $user->role !== 'membre') {
         return redirect('/login');
     }
 
-    return view('frontend.user.member.dashboard', ['user' => $user]);
+    return view('frontend.user.member.index', ['user' => $user]);
 }
 public function logout(Request $request)
 {
