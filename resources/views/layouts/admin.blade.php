@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <head>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -38,22 +39,19 @@ Bootstrap 5 Dashboard Admin Template
 </head>
 
 <body>
-    
+
     <header class="navbar sticky-top flex-md-nowrap">
         <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi-box"></i>
-                Mini Finance
-            </a>
+           <a class="navbar-brand" href="{{ route('dashboard') }}">
+    <img src="{{ asset('images/emsi-logo.jpg') }}" alt="Logo EMSI" style="height: 40px;">
+    VIE EMSI
+</a>
         </div>
 
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <form class="custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0" action="#" method="get" role="form">
-            <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
-        </form>
 
         <div class="navbar-nav me-lg-2">
             <div class="nav-item text-nowrap d-flex align-items-center">
@@ -168,38 +166,23 @@ Bootstrap 5 Dashboard Admin Template
 
                 <div class="dropdown px-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="	{{ asset('images/medium-shot-happy-man-smiling.jpg') }}" class="profile-image img-fluid" alt="">
+                        <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
                     </a>
                     <ul class="dropdown-menu bg-white shadow">
                         <li>
                             <div class="dropdown-menu-profile-thumb d-flex">
-                                <img src="images/medium-shot-happy-man-smiling.jpg" class="profile-image img-fluid me-3" alt="">
+                                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
 
                                 <div class="d-flex flex-column">
-                                    <small>Thomas</small>
-                                    <a href="#">thomas@site.com</a>
+                                    <small>Admin</small>
+                                    <a href="#">admin@gmail.com</a>
                                 </div>
                             </div>
                         </li>
 
-                        
-
-                        <li>
-                            <a class="dropdown-item" href="setting.html">
-                                <i class="bi-gear me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" href="help-center.html">
-                                <i class="bi-question-circle me-2"></i>
-                                Help
-                            </a>
-                        </li>
-
                         <li class="border-top mt-3 pt-2 mx-4">
-                            <a class="dropdown-item ms-0 me-0" href="#">
+                        <a class="nav-link" href="{{ route('logout') }}">
+                            <!-- <a class="dropdown-item ms-0 me-0" href="#"> -->
                                 <i class="bi-box-arrow-left me-2"></i>
                                 Logout
                             </a>
@@ -213,18 +196,25 @@ Bootstrap 5 Dashboard Admin Template
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
-                <div class="position-sticky py-4 px-3 sidebar-sticky">
+                
                     <ul class="nav flex-column h-100">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">
+                            <a class="nav-link active" aria-current="page" href="{{ route('dashboard') }}">
                                 <i class="bi-house-fill me-2"></i>
-                                Overview
+                                Dashboard
                             </a>
                         </li>
 
                         <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.store') }}">
+                                    <i class="bi bi-pencil-square me-2"></i>
+                                    Posts
+                                </a>
+                            </li>
+                            
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('events.list') }}">
-                                <i class="bi-wallet me-2"></i>
+                            <i class="bi bi-calendar-event me-2"></i>
                                 Evenements
                             </a>
                         </li>
@@ -238,25 +228,7 @@ Bootstrap 5 Dashboard Admin Template
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="setting.html">
-                                <i class="bi-gear me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="help-center.html">
-                                <i class="bi-question-circle me-2"></i>
-                                Help Center
-                            </a>
-                        </li>
-
-                        <li class="nav-item featured-box mt-lg-5 mt-4 mb-4">
-                            <img src="images/credit-card.png" class="img-fluid" alt="">
-
-                            <a class="btn custom-btn" href="#">Upgrade</a>
-                        </li>
+                
 
                         <li class="nav-item border-top mt-auto pt-2">
                             <a class="nav-link" href="{{ route('logout') }}">
@@ -267,8 +239,8 @@ Bootstrap 5 Dashboard Admin Template
                     </ul>
                 </div>
             </nav>
-
-            <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+<main class="main-wrapper py-4 px-md-4 border-start" style="margin-left: 12%; /* équivalent à col-2 */">
+    
                 @yield('content')
             </main>
 
@@ -278,7 +250,6 @@ Bootstrap 5 Dashboard Admin Template
 
     <!-- JAVASCRIPT FILES -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/apexcharts.min.js"></script>
     <script src="js/custom.js"></script>
 

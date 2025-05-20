@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary mt-3">⬅ Retour à la liste des événements</a>
+    <!-- <a href="javascript:history.back()" class="btn btn-secondary mb-3">Retour</a> -->
         <h1>{{ $event->title }}</h1>
         @if ($event->image)
     <div class="mb-3">
@@ -96,18 +98,6 @@
             </button>
         </form>
 
-        <a href="{{ route('admin.events.index') }}" class="btn btn-secondary mt-3">Retour à la liste des événements</a>
+       
     </div>
 @endsection
-<!-- @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const editBtn = document.getElementById('editBtn');
-        const editForm = document.getElementById('editForm');
-
-        editBtn.addEventListener('click', function () {
-            editForm.style.display = (editForm.style.display === 'none') ? 'block' : 'none';
-        });
-    });
-</script> 
-@endsection-->

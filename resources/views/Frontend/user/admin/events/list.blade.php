@@ -9,6 +9,20 @@
             {{ session('success') }}
         </div>
     @endif
+<!-- Formulaire de recherche -->
+<form method="GET" action="{{ route('admin.events.index') }}" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-5">
+            <input type="text" name="search" class="form-control" placeholder="Titre ou date (YYYY-MM-DD)" value="{{ request('search') }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary">🔍 Rechercher</button>
+        </div>
+        <div class="col-auto">
+            <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">↩️ Réinitialiser</a>
+        </div>
+    </div>
+</form>
 
     <!-- Formulaire avec ID correct -->
     <form id="createEventForm" action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data" class="mb-4">

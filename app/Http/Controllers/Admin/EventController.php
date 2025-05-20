@@ -17,12 +17,22 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        // Récupère tous les événements, sans pagination
-        $events = Event::all(); 
-        
-        // Vérification si la requête est une requête AJAX
+        $query = Event::query();
+    
+        // Si une recherche est présente
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('date', 'like', '%' . $search . '%');
+            });
+        }
+    
+        // Trie par le plus récent
+        $events = $query->orderBy('created_at', 'desc')->get();
+    
+        // Requête AJAX : renvoyer les événements au format JSON
         if ($request->ajax()) {
-            // Retourner les événements en JSON avec la structure appropriée
             return response()->json([
                 'events' => $events->map(function ($event) {
                     return [
@@ -34,13 +44,13 @@ class EventController extends Controller
                         'image' => $event->image ? asset('storage/' . $event->image) : null,
                     ];
                 }),
-                'next_page' => null // Pas de pagination ici
+                'next_page' => null
             ]);
         }
     
-        // Si ce n'est pas une requête AJAX, retourner la vue avec les événements
         return view('Frontend.user.admin.events.list', compact('events'));
     }
+    
     
     /**
      * Show the form for creating a new resource.
