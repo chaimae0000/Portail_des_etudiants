@@ -18,7 +18,7 @@ class Espace extends Controller
 
     public function messages()
     {
-        return view('frontend.user.admin.espace.gestion_msgs.messages');
+        return view('frontend.user.admin.espace.gestion_msgs.msgs');
        
     }
 }

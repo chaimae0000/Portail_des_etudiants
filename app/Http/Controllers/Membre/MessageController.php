@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Membre;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,20 +15,35 @@ class MessageController extends Controller
      * Affiche toutes les conversations et les utilisateurs pour l'utilisateur connecté.
      */
     public function msgs()
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
 
-        // Récupère les conversations où l'utilisateur est l'un des participants
-        $conversations = Conversation::where('user_one_id', $userId)
-            ->orWhere('user_two_id', $userId)
-            ->with(['userOne', 'userTwo'])
-            ->get();
+    // Récupère les conversations où l'utilisateur est l'un des participants
+    $conversations = Conversation::where('user_one_id', $userId)
+        ->orWhere('user_two_id', $userId)
+        ->with(['userOne', 'userTwo'])
+        ->get();
 
-        // Récupère les autres utilisateurs (destinataires possibles)
-        $users = User::where('id', '!=', $userId)->get();
-
-        return view('frontend.user.admin.espace.gestion_msgs.index', compact('conversations', 'users'));
+    // Filtrer les conversations, supprimer celles dont un utilisateur n'existe plus
+    foreach ($conversations as $conversation) {
+        if (!$conversation->userOne || !$conversation->userTwo) {
+            // Supprime la conversation si un des deux utilisateurs n'existe plus
+            $conversation->delete();
+        }
     }
+
+    // Récupère à nouveau les conversations valides (après suppression)
+    $conversations = Conversation::where('user_one_id', $userId)
+        ->orWhere('user_two_id', $userId)
+        ->with(['userOne', 'userTwo'])
+        ->get();
+
+    // Récupère les autres utilisateurs (destinataires possibles)
+    $users = User::where('id', '!=', $userId)->get();
+
+    return view('frontend.user.admin.espace.gestion_msgs.index', compact('conversations', 'users'));
+}
+
 
     /**
      * Affiche les messages d’une conversation.
@@ -45,7 +60,7 @@ class MessageController extends Controller
         abort(403);
     }
 
-    return view('frontend.user.admin.espace.gestion_msgs.show', compact('conversation'));
+    return view('frontend.user.member.espace.gestion_msgs.show', compact('conversation'));
 }
 
 
@@ -71,7 +86,7 @@ class MessageController extends Controller
             'body'            => $request->body,
         ]);
 
-        return redirect()->route('admin.messages.show', $conversation->id)
+        return redirect()->route('membre.messages.show', $conversation->id)
                          ->with('success', 'Message envoyé.');
     }
 

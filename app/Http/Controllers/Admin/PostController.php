@@ -38,23 +38,20 @@ class PostController extends Controller
     }
 
     public function like(Post $post)
-    {
-        $userId = Auth::user()->id;
-        
-        // Vérifie si l'utilisateur a déjà liké ce post
-        $existing = $post->likes()->where('user_id', $userId)->first();
-        
-        if ($existing) {
-            // Option : on enlève le like s'il existe déjà (toggle)
-            $existing->delete();
-        } else {
-            $post->likes()->create([
-                'user_id' => $userId,
-            ]);
-        }
-        
-        return back();
+{
+    $userId = Auth::id();
+
+    // Vérifie si déjà liké
+    $alreadyLiked = $post->likes()->where('user_id', $userId)->exists();
+
+    if (!$alreadyLiked) {
+        // Ajoute un like uniquement si ce n'est pas déjà fait
+        $post->likes()->create(['user_id' => $userId]);
     }
+
+    return back(); // ou return redirect()->route(...); selon ta logique
+}
+
 
     public function destroy($id)
     {

@@ -17,7 +17,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Event::query();
+        $query = Event::withCount('participations');
     
         // Si une recherche est présente
         if ($request->filled('search')) {
@@ -71,6 +71,7 @@ public function store(Request $request)
         'description' => 'required|string',
         'date' => 'required|date',
         'time' => 'required',
+        'max_participants' => 'required|integer|min:1',
         'image' => 'nullable|image|max:2048',
     ]);
 
@@ -85,10 +86,10 @@ public function store(Request $request)
         'description' => $request->description,
         'date' => $request->date,
         'time' => $request->time,
+        'max_participants' => $request->max_participants,
         'image' => $imagePath,
     ]);
 
-    // 🧠 Si AJAX → JSON
     if ($request->ajax()) {
         return response()->json([
             'success' => true,
@@ -97,9 +98,9 @@ public function store(Request $request)
         ]);
     }
 
-    // ✅ Sinon → redirection classique
     return redirect()->route('events.list')->with('success', 'Événement créé avec succès');
 }
+
 
    
 
@@ -142,12 +143,29 @@ public function store(Request $request)
             $event = Event::findOrFail($id);
             
             // Préparer les données à mettre à jour
-            $updateData = [
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
-                'date' => $validatedData['date'],
-                'time' => $validatedData['time'],
-            ];
+            $validatedData = $request->validate([
+    'title' => 'required|string|max:255',
+    'description' => 'required|string',
+    'date' => 'required|date',
+    'time' => 'required',
+    'max_participants' => 'required|integer|min:1',
+    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+]);
+
+$updateData = [
+    'title' => $validatedData['title'],
+    'description' => $validatedData['description'],
+    'date' => $validatedData['date'],
+    'time' => $validatedData['time'],
+    'max_participants' => $validatedData['max_participants'],
+];
+$currentCount = $event->participations()->count();
+if ($validatedData['max_participants'] < $currentCount) {
+    return back()->with('error', 'Erreur : Vous avez actuellement ' . $currentCount . ' participant(s) inscrit(s) à cet événement. Vous ne pouvez pas définir un nombre maximum de participants inférieur à ce nombre. Veuillez soit augmenter le maximum, soit gérer les inscriptions existantes.');
+}
+
+
+
             
             // Traiter l'image si elle est fournie
             if ($request->hasFile('image')) {
@@ -201,5 +219,13 @@ public function store(Request $request)
                // Retourner à la page des événements avec un message de succès
                return redirect()->route('admin.events.index')->with('success', 'Événement supprimé avec succès.');
     }
+    public function participants($id)
+{
+    $event = Event::with('participants')->findOrFail($id);
+    $participants = $event->participants;
+
+    return view('Frontend.user.admin.events.participants', compact('event', 'participants'));
+}
+
     
 }

@@ -45,7 +45,7 @@ class HomeController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('dashboard'); // Change this to your admin dashboard route
         } elseif ($user->role === 'membre') {
-            return redirect()->route('member.index');
+            return redirect()->route('membre.dashboard');
         }
     } else {
         return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();
@@ -96,7 +96,7 @@ public function memberIndex()
         return redirect('/login');
     }
 
-    return view('frontend.user.member.index', ['user' => $user]);
+    return view('frontend.user.member.dashboard', ['user' => $user]);
 }
 public function logout(Request $request)
 {

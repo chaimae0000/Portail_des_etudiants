@@ -14,11 +14,23 @@ class Event extends Model
         'description',
         'date',
         'time',
-        'image'
+        'image',
+        'max_participants',
     ];
     
-    // Si vous avez des conversions de types, assurez-vous qu'elles sont correctes
     protected $casts = [
         'date' => 'date',
     ];
+
+    public function participations()
+    {
+        return $this->hasMany(EventParticipation::class);
+    }
+
+    public function participants()
+{
+    return $this->belongsToMany(User::class, 'event_participations', 'event_id', 'user_id')
+                ->withTimestamps();
+}
+
 }

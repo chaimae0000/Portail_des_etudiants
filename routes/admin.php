@@ -30,6 +30,8 @@ Route::get('/admin/events/{id}/edit', [EventController::class, 'edit'])->name('a
 Route::put('/admin/events/{id}', [EventController::class, 'update'])->name('admin.events.update');
 
 Route::delete('/admin/events/{id}', [EventController::class, 'destroy'])->name('admin.events.destroy');
+Route::get('/admin/events/{id}/participants', [EventController::class, 'participants'])->name('admin.events.participants');
+
 
 Route::get('/admin/dashboard/events/list', [EventController::class, 'index'])->name('events.list');
 Route::get('/admin/setting', [EventController::class, 'index'])->name('setting');
@@ -42,10 +44,12 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/espace', [Espace::class, 'index'])->name('espaceadmin');
     Route::get('/gestion_adherants/visualiser-adherants', [AdherantController::class, 'index'])->name('visualiser_adherants');
 
-    Route::get('/admin/messages', [App\Http\Controllers\Admin\MessageController::class, 'index'])->name('messages');
-Route::post('/admin/messages/{id}/reply', [App\Http\Controllers\Admin\MessageController::class, 'reply'])->name('messages.reply');
+Route::get('/messages', [MessageController::class, 'msgs'])->name('admin.messages.msgs');
+Route::post('/messages/store', [MessageController::class, 'store'])->name('admin.messages.store');
+Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('admin.messages.reply');
 
-   
+Route::get('/messages/{id}', [MessageController::class, 'show'])->name('admin.messages.show');
+
     Route::post('/admin/adherants/store', [AdherantController::class, 'store'])->name('adherants.store');
 
     Route::get('/admin/adherants/{id}', [AdherantController::class, 'show'])->name('adherants.show');

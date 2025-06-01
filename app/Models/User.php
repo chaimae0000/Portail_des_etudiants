@@ -53,5 +53,17 @@ class User extends Authenticatable
 {
     return $this->hasMany(Message::class);
 }
+public function eventParticipations()
+{
+    return $this->hasMany(EventParticipation::class);
+}
+
+public function events()
+{
+    return $this->belongsToMany(Event::class, 'event_participations')
+                ->withPivot('status')
+                ->withTimestamps();
+}
+
 
 }

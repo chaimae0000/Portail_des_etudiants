@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.member')
 
 @section('content')
 <div class="container py-4">
@@ -10,33 +10,30 @@
     @endif
 
     @forelse ($conversations as $conversation)
-    @php
-        $otherUser = $conversation->user_one_id === auth()->id()
-            ? $conversation->userTwo
-            : $conversation->userOne;
-    @endphp
+        @php
+            $otherUser = $conversation->user_one_id === auth()->id()
+                ? $conversation->userTwo
+                : $conversation->userOne;
+        @endphp
 
-    @if($otherUser)
         <div class="card mb-2">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <strong>{{ $otherUser->name }}</strong> ({{ $otherUser->email }})
                 </div>
-                <a href="{{ route('admin.messages.show', $conversation->id) }}" class="btn btn-sm btn-primary">
+                <a href="{{ route('membre.messages.show', $conversation->id) }}" class="btn btn-sm btn-primary">
                     Voir la conversation
                 </a>
             </div>
         </div>
-    @endif
-@empty
-    <p>Aucune conversation pour le moment.</p>
-@endforelse
-
+    @empty
+        <p>Aucune conversation pour le moment.</p>
+    @endforelse
 
     <hr>
 
     <h3>Envoyer un nouveau message</h3>
-    <form action="{{ route('admin.messages.store') }}" method="POST">
+    <form action="{{ route('membre.messages.store') }}" method="POST">
         @csrf
         <div class="form-group mb-3">
             <label for="receiver_id">Destinataire</label>

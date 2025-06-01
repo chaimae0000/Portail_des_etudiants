@@ -2,72 +2,99 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>📅 Liste des Événements</h2>
+    <h2 class="mb-4 fw-bold text-primary">
+        <i class="bi bi-calendar-event-fill me-2"></i> Gestion des Événements
+    </h2>
 
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-<!-- Formulaire de recherche -->
-<form method="GET" action="{{ route('admin.events.index') }}" class="mb-4">
-    <div class="row g-2">
-        <div class="col-md-5">
-            <input type="text" name="search" class="form-control" placeholder="Titre ou date (YYYY-MM-DD)" value="{{ request('search') }}">
+
+    <!-- Bouton toggle -->
+    <div class="mb-4 text-end">
+        <button id="toggleFormBtn" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter un événement
+        </button>
+    </div>
+
+    <!-- Formulaire masqué par défaut -->
+    <div id="eventFormCard" class="card shadow-sm mb-5 border-0 d-none">
+        <div class="card-header bg-light">
+            <h5 class="mb-0 text-dark"><i class="bi bi-plus-circle me-2"></i>Créer un nouvel événement</h5>
         </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-outline-primary">🔍 Rechercher</button>
-        </div>
-        <div class="col-auto">
-            <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">↩️ Réinitialiser</a>
+        <div class="card-body">
+            <form id="createEventForm" action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <input type="text" name="title" class="form-control" placeholder="Titre" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <input type="time" name="time" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <input type="file" name="image" class="form-control" accept="image/*">
+                    </div>
+                    <div class="col-12 mb-2">
+                        <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <input type="number" name="max_participants" class="form-control" placeholder="Nombre maximum de participants" min="1">
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-primary">Créer l'Événement</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
 
-    <!-- Formulaire avec ID correct -->
-    <form id="createEventForm" action="{{ route('admin.events.store') }}" method="POST" enctype="multipart/form-data" class="mb-4">
-        @csrf
-        <div class="row">
-            <div class="col-md-6 mb-2">
-                <input type="text" name="title" class="form-control" placeholder="Titre" required>
+    <!-- Formulaire de recherche -->
+    <form method="GET" action="{{ route('admin.events.index') }}" class="mb-4">
+        <div class="row g-2">
+            <div class="col-md-5">
+                <input type="text" name="search" class="form-control" placeholder="Titre ou date (YYYY-MM-DD)" value="{{ request('search') }}">
             </div>
-            <div class="col-md-6 mb-2">
-                <input type="date" name="date" class="form-control" required>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary">🔍 Rechercher</button>
             </div>
-            <div class="col-md-6 mb-2">
-                <input type="time" name="time" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-2">
-                <input type="file" name="image" class="form-control">
-            </div>
-            <div class="col-12 mb-2">
-                <textarea name="description" class="form-control" placeholder="Description" required></textarea>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Créer l'Événement</button>
+            <div class="col-auto">
+                <a href="{{ route('admin.events.index') }}" class="btn btn-outline-secondary">↩️ Réinitialiser</a>
             </div>
         </div>
     </form>
 
-    <!-- Conteneur pour la liste des événements -->
-    <div id="event-container">
-        @foreach($events as $event)
-            <div class="card mb-3">
-                @if($event->image)
-                  <!-- <img src="{{ asset('storage/' . $event->image) }}" class="card-img-top" style="max-height:200px;" alt="Image"> -->
-                    <img src="{{ asset('storage/' . $event->image) }}" alt="Image" style="max-height:300px; width:100%; object-fit:auto;">
-
-                @endif
-                <div class="card-body">
-                    <h5>{{ $event->title }}</h5>
-                    <p class="text-muted">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }} à {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
-                    <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-sm btn-primary">🔍 Détails</a>
-
-                
+    <!-- Liste des événements -->
+    <div id="event-container" class="row">
+        @forelse($events as $event)
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    @if($event->image)
+                        <img src="{{ asset('storage/' . $event->image) }}" alt="Image" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                    @else
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">Pas d’image</span>
+                        </div>
+                    @endif
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">{{ $event->title }}</h5>
+                        <p class="text-muted mb-1"><i class="bi bi-calendar3 me-1"></i> {{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</p>
+                        <p class="text-muted mb-2"><i class="bi bi-clock me-1"></i> {{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
+                        <p class="mb-2"><strong>Participants :</strong> {{ $event->participations_count }} / {{ $event->max_participants }}</p>
+                        <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
+                            🔍 Détails
+                        </a>
+                    </div>
                 </div>
-                
             </div>
-        @endforeach
+        @empty
+            <div class="col-12">
+                <div class="alert alert-info">Aucun événement trouvé.</div>
+            </div>
+        @endforelse
     </div>
 </div>
 @endsection
@@ -75,56 +102,21 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('createEventForm');
+    const formCard = document.getElementById('eventFormCard');
+    const toggleBtn = document.getElementById('toggleFormBtn');
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(form);
+    if (toggleBtn && formCard) {
+        toggleBtn.addEventListener('click', () => {
+            formCard.classList.toggle('d-none');
 
-        fetch("{{ route('admin.events.store') }}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const event = data.event;
-                const container = document.getElementById('event-container');
-                const card = document.createElement('div');
-                card.classList.add('card', 'mb-3', 'event-card');
-                card.setAttribute('data-id', event.id);
-
-                let imageHtml = '';
-                if (event.image) {
-                    imageHtml = `<img src="/storage/${event.image}" alt="Image">`;
-
-                }
-
-                card.innerHTML = `
-                    ${imageHtml}
-                    <div class="card-body">
-                        <h5>${event.title}</h5>
-                        <p>${event.description}</p>
-                        <p class="text-muted">${event.date.substring(0, 10)} à ${event.time}</p>
-                        <a href="/admin/events/${event.id}" class="btn btn-sm btn-primary">🔍 Détails</a>
-                    </div>
-                `;
-
-                container.prepend(card);
-                form.reset();
-                alert('✅ Événement ajouté avec succès !');
+            if (formCard.classList.contains('d-none')) {
+                toggleBtn.innerHTML = '<i class="bi bi-plus-circle"></i> Ajouter un événement';
             } else {
-                alert('❌ Erreur: ' + data.message);
+                toggleBtn.innerHTML = '<i class="bi bi-dash-circle"></i> Masquer le formulaire';
             }
-        })
-        .catch(error => {
-            console.error('Erreur AJAX:', error);
-            alert('❌ Une erreur est survenue.');
         });
-    });
+    }
 });
 </script>
 @endsection
+
