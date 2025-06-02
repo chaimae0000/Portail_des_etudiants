@@ -51,6 +51,14 @@ class PostController extends Controller
 
     return back(); // ou return redirect()->route(...); selon ta logique
 }
+public function unlike(Post $post)
+{
+    $userId = Auth::id();
+
+    $post->likes()->where('user_id', $userId)->delete();
+
+    return back();
+}
 
 
     public function destroy($id)

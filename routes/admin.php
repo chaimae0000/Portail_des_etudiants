@@ -69,6 +69,7 @@ Route::middleware(['auth', 'IsAdmin'])->get('/admin-test', function () {
     return 'Vous avez accès à la page admin';
 });
 Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'destroy'])->name('posts.destroy');
 Route::put('/posts/{post}', [App\Http\Controllers\Admin\PostController::class, 'update'])->name('posts.update');
