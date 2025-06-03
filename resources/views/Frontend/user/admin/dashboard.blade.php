@@ -156,7 +156,7 @@
             </div>
         </div>
         
-{{-- <div class="col-lg-6">
+<div class="col-lg-6">
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
             <h6 class="fw-bold mb-0">
@@ -166,19 +166,19 @@
         </div>
         <div class="card-body p-0">
             @forelse($latestMessages as $message)
-                <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-light">
-                    <div class="d-flex align-items-center">
-                           
-                        <div>
-                            <h6 class="mb-1 fw-semibold">{{ $message->sender->name ?? 'Expéditeur inconnu' }}</h6>
-                            <p class="text-muted mb-0 small">
-                                {{ \Illuminate\Support\Str::limit($message->body, 100) }}
-                            </p>
+                <div class="p-3 border-bottom border-light">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px;">
+                                <i class="bi bi-envelope-paper-fill text-danger" style="font-size: 12px;"></i>
+                            </div>
+                            <h6 class="mb-0 fw-semibold">{{ $message->sender->name ?? 'Expéditeur inconnu' }}</h6>
                         </div>
-                    </div>
-                    <div class="text-end">
                         <small class="text-muted">{{ $message->created_at->diffForHumans() }}</small>
                     </div>
+                    <p class="text-muted mb-0 small">
+                        {{ \Illuminate\Support\Str::limit($message->body, 100) }}
+                    </p>
                 </div>
             @empty
                 <div class="text-center py-5">
@@ -188,7 +188,8 @@
             @endforelse
         </div>
     </div>
-</div> --}}
+</div>
+
 
 
     </div>

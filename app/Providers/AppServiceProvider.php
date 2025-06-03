@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Message;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +33,30 @@ class AppServiceProvider extends ServiceProvider
             ->prefix('admin')
             ->name('admin.')
             ->group(base_path('routes/admin.php'));
+
+
+         View::composer('layouts.member', function ($view) {
+        if (Auth::check()) {
+            $messages = Message::with('sender')
+                        ->where('receiver_id', Auth::id()) // adapte ce champ
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+            $view->with('messages', $messages);
+        }
+    });
+    View::composer('layouts.admin', function ($view) {
+        if (Auth::check()) {
+            $messages = Message::with('sender')
+                        ->where('receiver_id', Auth::id()) // adapte ce champ
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+            $view->with('messages', $messages);
+        }
+    });
     }
     
 }

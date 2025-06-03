@@ -39,12 +39,14 @@ class DashboardController extends Controller
                                     ->select('id', 'user_id', 'content', 'created_at')
                                     ->get();
 
-    //     $latestMessages = Message::with(['sender:id,name'])
-    // ->where('receiver_id', Auth::id())
-    // ->latest()
-    // ->take(5)
-    // ->get(['id', 'sender_id', 'body', 'created_at']);
+        $latestMessages = Message::with(['sender:id,name'])
+    ->where('receiver_id', Auth::id()) // ou un ID fixe si nécessaire
+    ->latest()
+    ->take(2)
+    ->get(['id', 'sender_id', 'body', 'created_at']);
 
+
+    
 
         return view('frontend.user.admin.dashboard', compact(
             'membersCount',
@@ -52,8 +54,8 @@ class DashboardController extends Controller
             'postsCount',
             'commentairesCount',
             'recentMembers',
-            'latestCommentaires'
-            // 'latestMessages'
+            'latestCommentaires',
+            'latestMessages'
         ));
     }
 

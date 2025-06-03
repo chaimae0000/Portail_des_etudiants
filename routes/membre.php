@@ -20,7 +20,7 @@ Route::prefix('membre')->middleware(['auth', IsMembre::class])->name('membre.')-
 
     // Messages : afficher la conversation avec l’admin
 Route::get('/messages', [MessageController::class, 'msgs'])->name('messages.msgs');
-Route::post('/messages/store', [MessageController::class, 'store'])->name('messages.store');
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
 
 Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');

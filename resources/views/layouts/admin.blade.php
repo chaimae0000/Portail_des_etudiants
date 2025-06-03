@@ -70,50 +70,24 @@ Bootstrap 5 Dashboard Admin Template
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-lg-end notifications-block-wrap bg-white shadow" aria-labelledby="navbarLightDropdownMenuLink">
-                        <small>Notifications</small>
+    <small>📨 Messages récents</small>
 
-                        <li class="notifications-block border-bottom pb-2 mb-2">
-                            <a class="dropdown-item d-flex  align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-success">
-                                    <i class="notifications-icon bi-check-circle-fill"></i>
-                                </div>
+    @foreach($messages as $message)
+    <li class="notifications-block border-bottom pb-2 mb-2">
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.messages.msgs') }}">
+            <div class="notifications-icon-wrap bg-success">
+                <i class="notifications-icon bi-check-circle-fill"></i>
+            </div>
 
-                                <div>
-                                    <span>Your account has been created successfuly.</span>
+            <div>
+                <span><strong>{{ $message->sender->name }}</strong>: {{ $message->body }}</span>
+                <p>{{ $message->created_at->diffForHumans() }}</p>
+            </div>
+        </a>
+    </li>
+@endforeach
 
-                                    <p>12 days ago</p>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="notifications-block border-bottom pb-2 mb-2">
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-info">
-                                    <i class="notifications-icon bi-folder"></i>
-                                </div>
-
-                                <div>
-                                    <span>Please check. We have sent a Daily report.</span>
-
-                                    <p>10 days ago</p>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="notifications-block">
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-danger">
-                                    <i class="notifications-icon bi-question-circle"></i>
-                                </div>
-
-                                <div>
-                                    <span>Account verification failed.</span>
-
-                                    <p>1 hour ago</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+</ul>
                 </div>
 
                 <div class="dropdown ps-1">
@@ -181,7 +155,7 @@ Bootstrap 5 Dashboard Admin Template
 
                                 <div class="d-flex flex-column">
                                     <small>Admin</small>
-                                    <a href="#">admin@gmail.com</a>
+                                    <a href="{{ route('espaceadmin') }}">admin@gmail.com</a>
                                 </div>
                             </div>
                         </li>

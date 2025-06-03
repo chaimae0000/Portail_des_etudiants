@@ -41,7 +41,7 @@ class MessageController extends Controller
     // Récupère les autres utilisateurs (destinataires possibles)
     $users = User::where('id', '!=', $userId)->get();
 
-    return view('frontend.user.admin.espace.gestion_msgs.index', compact('conversations', 'users'));
+    return view('frontend.user.member.espace.gestion_msgs.index', compact('conversations', 'users'));
 }
 
 
@@ -132,4 +132,9 @@ class MessageController extends Controller
             ]
         );
     }
+    public function headerData()
+{
+    $messages = Message::latest()->take(5)->get();
+    return view('partials.header', compact('messages'));
+}
 }

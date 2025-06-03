@@ -64,50 +64,25 @@ Bootstrap 5 Dashboard Admin Template
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-lg-end notifications-block-wrap bg-white shadow" aria-labelledby="navbarLightDropdownMenuLink">
-                        <small>Notifications</small>
+    <small>📨 Messages récents</small>
 
-                        <li class="notifications-block border-bottom pb-2 mb-2">
-                            <a class="dropdown-item d-flex  align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-success">
-                                    <i class="notifications-icon bi-check-circle-fill"></i>
-                                </div>
+    @foreach($messages as $message)
+    <li class="notifications-block border-bottom pb-2 mb-2">
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('membre.messages.msgs') }}">
+            <div class="notifications-icon-wrap bg-success">
+                <i class="notifications-icon bi-check-circle-fill"></i>
+            </div>
 
-                                <div>
-                                    <span>Your account has been created successfuly.</span>
+            <div>
+                <span><strong>{{ $message->sender->name }}</strong>: {{ $message->body }}</span>
+                <p>{{ $message->created_at->diffForHumans() }}</p>
+            </div>
+        </a>
+    </li>
+@endforeach
 
-                                    <p>12 days ago</p>
-                                </div>
-                            </a>
-                        </li>
+</ul>
 
-                        <li class="notifications-block border-bottom pb-2 mb-2">
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-info">
-                                    <i class="notifications-icon bi-folder"></i>
-                                </div>
-
-                                <div>
-                                    <span>Please check. We have sent a Daily report.</span>
-
-                                    <p>10 days ago</p>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="notifications-block">
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="notifications-icon-wrap bg-danger">
-                                    <i class="notifications-icon bi-question-circle"></i>
-                                </div>
-
-                                <div>
-                                    <span>Account verification failed.</span>
-
-                                    <p>1 hour ago</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
 
                 <div class="dropdown ps-1">
@@ -165,68 +140,94 @@ Bootstrap 5 Dashboard Admin Template
                 </div>
 
                 <div class="dropdown px-3">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
-                    </a>
-                    <ul class="dropdown-menu bg-white shadow">
-                        <li>
-                            <div class="dropdown-menu-profile-thumb d-flex">
-                                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
+    </a>
+    <ul class="dropdown-menu bg-white shadow">
+        <li>
+            <div class="dropdown-menu-profile-thumb d-flex">
+                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
 
-                                <div class="d-flex flex-column">
-                                    <small>Admin</small>
-                                    <a href="#">admin@gmail.com</a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="border-top mt-3 pt-2 mx-4">
-                        <a class="nav-link" href="{{ route('logout') }}">
-                            <!-- <a class="dropdown-item ms-0 me-0" href="#"> -->
-                                <i class="bi-box-arrow-left me-2"></i>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+                <div class="d-flex flex-column">
+                    <small>{{ Auth::user()->name }}</small>
+                    <a href="{{ route('membre.espace') }}">{{ Auth::user()->email }}</a>
                 </div>
+            </div>
+        </li>
+
+        <li class="border-top mt-3 pt-2 mx-4">
+            <a class="nav-link" href="{{ route('logout') }}">
+                <i class="bi-box-arrow-left me-2"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>
+
             </div>
         </div>
     </header>
 
     <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
-                
-                    <ul class="nav flex-column">
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('membre.dashboard') }}">
-            <i class="bi-house-fill me-2"></i> Dashboard
-        </a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="{{ route('membre.posts.index') }}">
-        <i class="bi-pencil-square me-2"></i> Posts
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse shadow-sm" style="min-height: 100vh;">
+            <ul class="nav flex-column py-9 px-9">
+
+
+                <style>
+    .nav-link.active {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+</style>
+
+<li class="nav-item mb-2">
+    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+        {{ request()->routeIs('membre.posts.index') ? 'active text-white bg-success' : 'text-dark' }}"
+       href="{{ route('membre.posts.index') }}">
+        <i class="bi-pencil-square me-2 {{ request()->routeIs('membre.posts.index') ? 'text-white' : 'text-success' }} fs-5"></i>
+        Posts
     </a>
 </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('membre.events.index') }}">
-            <i class="bi-calendar-event me-2"></i> Evenements
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('membre.espace') }}">
-            <i class="bi-person me-2"></i> Espace Membre
-        </a>
-    </li>
-    <li class="nav-item border-top mt-auto pt-2">
-        <a class="nav-link" href="{{ route('logout') }}">
-            <i class="bi-box-arrow-left me-2"></i> Déconnexion
-        </a>
-    </li>
-</ul>
+<li class="nav-item mb-2">
+    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+        {{ request()->routeIs('membre.events.index') ? 'active text-white bg-warning' : 'text-dark' }}"
+       href="{{ route('membre.events.index') }}">
+        <i class="bi-calendar-event me-2 {{ request()->routeIs('membre.events.index') ? 'text-white' : 'text-warning' }} fs-5"></i>
+        Événements
+    </a>
+</li>
 
-                </div>
+<li class="nav-item mb-2">
+    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+        {{ request()->routeIs('membre.espace') ? 'active text-white bg-info' : 'text-dark' }}"
+       href="{{ route('membre.espace') }}">
+        <i class="bi-person me-2 {{ request()->routeIs('membre.espace') ? 'text-white' : 'text-info' }} fs-5"></i>
+        Espace Membre
+    </a>
+</li>
+
+<li class="nav-item border-top pt-3 mt-3">
+    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg text-danger"
+       href="{{ route('logout') }}">
+        <i class="bi-box-arrow-left me-2 fs-5"></i>
+        Déconnexion
+    </a>
+</li>
+
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<style>
+    .hover-bg:hover {
+        background-color: #f0f0f0;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
             </nav>
 <main class="main-wrapper py-4 px-md-4 border-start" style="margin-left: 12%; /* équivalent à col-2 */">
     
