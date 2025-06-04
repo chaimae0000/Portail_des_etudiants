@@ -34,12 +34,9 @@ Route::get('/admin/events/{id}/participants', [EventController::class, 'particip
 
 
 Route::get('/admin/dashboard/events/list', [EventController::class, 'index'])->name('events.list');
-Route::get('/admin/setting', [EventController::class, 'index'])->name('setting');
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
-        
-    Route::get('/admin/setting', [EventController::class, 'index'])->name('setting');
-
+    
     // Autres routes espace
     Route::get('/espace', [Espace::class, 'index'])->name('espaceadmin');
     Route::get('/gestion_adherants/visualiser-adherants', [AdherantController::class, 'index'])->name('visualiser_adherants');
@@ -59,7 +56,7 @@ Route::get('/messages/{id}', [MessageController::class, 'show'])->name('admin.me
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     
     

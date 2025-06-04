@@ -1,6 +1,7 @@
 @extends('layouts.member')
 
 @section('content')
+@include('layouts.preloader')
 <div class="container py-4">
     <a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅ ggggg</a>
     <h2>Envoyer un message</h2>

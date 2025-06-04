@@ -9,7 +9,6 @@ use App\Http\Controllers\Membre\EspaceController;
 use App\Http\Controllers\Membre\DashboardController;
 
 Route::prefix('membre')->middleware(['auth', IsMembre::class])->name('membre.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('events', EventController::class);
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

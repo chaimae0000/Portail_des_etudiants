@@ -45,7 +45,7 @@ class HomeController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('dashboard'); // Change this to your admin dashboard route
         } elseif ($user->role === 'membre') {
-            return redirect()->route('membre.dashboard');
+            return redirect()->route('membre.posts.index');
         }
     } else {
         return redirect()->back()->withErrors(['login' => 'Invalid email or password'])->withInput();

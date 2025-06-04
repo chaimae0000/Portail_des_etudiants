@@ -1,6 +1,7 @@
 @extends('layouts.member')
 
 @section('content')
+@include('layouts.preloader')
 <div class="container mt-4">
     <h2 class="mb-4 text-primary fw-bold">
         <i class="bi bi-calendar-check-fill me-2"></i> Mes Événements Inscrits

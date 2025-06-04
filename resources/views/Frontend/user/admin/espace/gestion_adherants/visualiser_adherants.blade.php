@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('layouts.preloader')
 <div class="container mt-4">
 <a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅Retour</a>
 

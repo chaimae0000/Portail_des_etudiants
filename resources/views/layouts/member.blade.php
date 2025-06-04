@@ -42,7 +42,7 @@ Bootstrap 5 Dashboard Admin Template
 
     <header class="navbar sticky-top flex-md-nowrap">
         <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-           <a class="navbar-brand" href="{{ route('dashboard') }}">
+           <a class="navbar-brand" >
     <img src="{{ asset('images/emsi-logo.jpg') }}" alt="Logo EMSI" style="height: 40px;">
     VIE EMSI
 </a>
@@ -85,84 +85,50 @@ Bootstrap 5 Dashboard Admin Template
 
                 </div>
 
-                <div class="dropdown ps-1">
-                    <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi-three-dots-vertical"></i>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-social bg-white shadow">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/search.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Google</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/spotify.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Spotify</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/telegram.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Telegram</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/snapchat.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Snapchat</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/tiktok.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Tiktok</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/youtube.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Youtube</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div class="dropdown px-3">
-    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
-    </a>
-    <ul class="dropdown-menu bg-white shadow">
-        <li>
-            <div class="dropdown-menu-profile-thumb d-flex">
-                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
+    <a class="nav-link dropdown-toggle d-inline-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('storage/photos/default-user.png') }}"
+         class="rounded-circle flex-shrink-0"
+         style="width: 40px; height: 40px; object-fit: cover;"
+         alt="Photo de profil">
+</a>
 
-                <div class="d-flex flex-column">
-                    <small>{{ Auth::user()->name }}</small>
-                    <a href="{{ route('membre.espace') }}">{{ Auth::user()->email }}</a>
+    <ul class="dropdown-menu dropdown-menu-end p-3 shadow-lg border-0" style="min-width: 260px; border-radius: 12px;">
+        <li>
+            <div class="d-flex align-items-center mb-3">
+                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('storage/photos/default-user.png') }}"
+                     class="rounded-circle shadow-sm border"
+                     style="width: 55px; height: 55px; object-fit: cover;"
+                     alt="Photo de profil">
+
+                <div class="ms-3">
+                    <div class="fw-bold text-dark">{{ Auth::user()->name }}</div>
+                    <div class="text-muted small">{{ Auth::user()->email }}</div>
                 </div>
             </div>
         </li>
-
-        <li class="border-top mt-3 pt-2 mx-4">
-            <a class="nav-link" href="{{ route('logout') }}">
-                <i class="bi-box-arrow-left me-2"></i>
-                Logout
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('membre.espace') }}">
+                <i class="bi bi-person-circle text-primary"></i>
+                <span>Mon espace</span>
             </a>
+        </li>
+        <li>
+            <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Déconnexion</span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </li>
     </ul>
 </div>
+
 
             </div>
         </div>

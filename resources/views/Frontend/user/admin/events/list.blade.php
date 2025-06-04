@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('layouts.preloader')
 <div class="container mt-4">
     <h2 class="mb-4 fw-bold text-primary">
         <i class="bi bi-calendar-event-fill me-2"></i> Gestion des Événements

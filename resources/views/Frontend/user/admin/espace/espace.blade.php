@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('layouts.preloader')
 
     <div class="title-group mb-4 text-center">
         <h1 class="h2 mb-2">Espace Administrateur</h1>

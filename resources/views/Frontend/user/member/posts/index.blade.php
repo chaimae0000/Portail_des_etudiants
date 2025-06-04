@@ -1,6 +1,7 @@
 @extends('layouts.member')
 
 @section('content')
+@include('layouts.preloader')
 <h3 class="mb-4">📝 Publications de l’administrateur</h3>
 
 @foreach ($posts as $post)

@@ -90,135 +90,115 @@ Bootstrap 5 Dashboard Admin Template
 </ul>
                 </div>
 
-                <div class="dropdown ps-1">
-                    <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi-three-dots-vertical"></i>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-social bg-white shadow">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/search.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Google</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/spotify.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Spotify</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/telegram.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Telegram</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/snapchat.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Snapchat</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/tiktok.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Tiktok</span>
-                                    </a>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4 col-4">
-                                    <a class="dropdown-item text-center" href="#">
-                                        <img src="images/social/youtube.png" class="profile-image img-fluid" alt="">
-                                        <span class="d-block">Youtube</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div class="dropdown px-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid" alt="">
                     </a>
-                    <ul class="dropdown-menu bg-white shadow">
-                        <li>
-                            <div class="dropdown-menu-profile-thumb d-flex">
-                                <img src="{{ asset('images/default-user.png') }}" class="profile-image img-fluid me-3" alt="">
+                    <ul class="dropdown-menu dropdown-menu-end p-3 shadow-lg border-0" style="min-width: 260px; border-radius: 12px;">
+    <li>
+        <div class="d-flex align-items-center mb-3">
+            <img src="{{ asset('images/default-user.png') }}"
+                 class="rounded-circle shadow-sm border me-3"
+                 style="width: 55px; height: 55px; object-fit: cover;"
+                 alt="Photo Admin">
 
-                                <div class="d-flex flex-column">
-                                    <small>Admin</small>
-                                    <a href="{{ route('espaceadmin') }}">admin@gmail.com</a>
-                                </div>
-                            </div>
-                        </li>
+            <div>
+                <div class="fw-bold text-dark">Admin</div>
+                <a  class="text-muted small text-decoration-none">admin@gmail.com</a>
+            </div>
+        </div>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('espaceadmin') }}">
+            <i class="bi bi-person-circle text-primary"></i>
+            <span>Mon espace</span>
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item d-flex align-items-center gap-2 text-danger" href="{{ route('logout') }}"
+           onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Déconnexion</span>
+        </a>
+        <form id="logout-form-admin" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    </li>
+</ul>
 
-                        <li class="border-top mt-3 pt-2 mx-4">
-                        <a class="nav-link" href="{{ route('logout') }}">
-                            <!-- <a class="dropdown-item ms-0 me-0" href="#"> -->
-                                <i class="bi-box-arrow-left me-2"></i>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
-                
-                    <ul class="nav flex-column h-100">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('dashboard') }}">
-                                <i class="bi-house-fill me-2"></i>
-                                Dashboard
-                            </a>
-                        </li>
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light sidebar collapse shadow-sm" style="min-height: 100vh;">
+            <ul class="nav flex-column py-9 px-9">
 
-                        <li class="nav-item">
-                                <a class="nav-link" href="{{ route('posts.store') }}">
-                                    <i class="bi bi-pencil-square me-2"></i>
-                                    Posts
-                                </a>
-                            </li>
-                            
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('events.list') }}">
-                            <i class="bi bi-calendar-event me-2"></i>
-                                Evenements
-                            </a>
-                        </li>
+                <style>
+                    .nav-link.active {
+                        transition: background-color 0.3s ease, color 0.3s ease;
+                    }
 
-                        
+                    .hover-bg:hover {
+                        background-color: #f0f0f0;
+                        transition: background-color 0.3s ease;
+                    }
+                </style>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('espaceadmin') }}">
-                                <i class="bi-person me-2"></i>
-                                Espace admin
-                            </a>
-                        </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+                        {{ request()->routeIs('dashboard') ? 'active text-white bg-primary' : 'text-dark' }}"
+                       href="{{ route('dashboard') }}">
+                        <i class="bi-house-fill me-2 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-primary' }} fs-5"></i>
+                        Dashboard
+                    </a>
+                </li>
 
-                
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+                        {{ request()->routeIs('posts.store') ? 'active text-white bg-success' : 'text-dark' }}"
+                       href="{{ route('posts.store') }}">
+                        <i class="bi-pencil-square me-2 {{ request()->routeIs('posts.store') ? 'text-white' : 'text-success' }} fs-5"></i>
+                        Posts
+                    </a>
+                </li>
 
-                        <li class="nav-item border-top mt-auto pt-2">
-                            <a class="nav-link" href="{{ route('logout') }}">
-                                <i class="bi-box-arrow-left me-2"></i>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+                        {{ request()->routeIs('events.list') ? 'active text-white bg-warning' : 'text-dark' }}"
+                       href="{{ route('events.list') }}">
+                        <i class="bi-calendar-event me-2 {{ request()->routeIs('events.list') ? 'text-white' : 'text-warning' }} fs-5"></i>
+                        Événements
+                    </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg
+                        {{ request()->routeIs('espaceadmin') ? 'active text-white bg-info' : 'text-dark' }}"
+                       href="{{ route('espaceadmin') }}">
+                        <i class="bi-person me-2 {{ request()->routeIs('espaceadmin') ? 'text-white' : 'text-info' }} fs-5"></i>
+                        Espace Admin
+                    </a>
+                </li>
+
+                <li class="nav-item border-top pt-3 mt-3">
+                    <a class="nav-link d-flex align-items-center fw-semibold rounded py-2 px-3 hover-bg text-danger"
+                       href="{{ route('logout') }}">
+                        <i class="bi-box-arrow-left me-2 fs-5"></i>
+                        Déconnexion
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
 <main class="main-wrapper py-4 px-md-4 border-start" style="margin-left: 12%; /* équivalent à col-2 */">
     
                 @yield('content')

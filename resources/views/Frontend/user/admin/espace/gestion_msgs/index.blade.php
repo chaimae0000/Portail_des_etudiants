@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container py-4">
+    @include('layouts.preloader')
     <a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅ Retour</a>
     <h2>Mes conversations</h2>
 

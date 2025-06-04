@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+@include('layouts.preloader')
 <a href="javascript:history.back()" class="btn btn-secondary mb-3">⬅Retour</a>
 <!-- Formulaire de création d'un nouveau post -->
 <div class="card shadow-sm rounded mb-5">
